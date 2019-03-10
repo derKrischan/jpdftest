@@ -155,7 +155,7 @@
 						<tagNameFormat>@{project.artifactId}-@{project.version}</tagNameFormat>
 						<useReleaseProfile>false</useReleaseProfile>
 						<goals>deploy site-deploy</goals>
-						<releaseProfiles>nb</releaseProfiles>
+						<releaseProfiles>dev</releaseProfiles>
 						<releaseVersion>${currentVersion.majorVersion}.${currentVersion.minorVersion}.${currentVersion.incrementalVersion}</releaseVersion>
 						<developmentVersion>${currentVersion.majorVersion}.${currentVersion.nextMinorVersion}.0-SNAPSHOT</developmentVersion>
 					</configuration>
