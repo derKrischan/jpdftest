@@ -11,3 +11,4 @@ log
 .classpath
 .idea
 todo.*
+release.properties
