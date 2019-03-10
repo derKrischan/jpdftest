@@ -1,11 +1,12 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
-import org.capreolus.ver.pdf.PdfAssertions;
-import org.capreolus.ver.pdf.image.MetricRectangle;
 import org.junit.Test;
+
+import io.github.derkrischan.pdftest.PdfAssertions;
+import io.github.derkrischan.pdftest.image.MetricRectangle;
 
 /**
  * Tests for PDF text verification.

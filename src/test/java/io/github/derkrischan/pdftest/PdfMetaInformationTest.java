@@ -1,7 +1,8 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
-import org.capreolus.ver.pdf.PdfAssertions;
 import org.junit.Test;
+
+import io.github.derkrischan.pdftest.PdfAssertions;
 
 /**
  * 

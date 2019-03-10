@@ -1,30 +1,33 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.assertj.core.api.AbstractIntegerAssert;
+import org.assertj.core.api.AbstractFloatAssert;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Intermediate IntegerAssert class works as a bridge between AssertJ's {@link AbstractIntegerAssert} and 
+ * Intermediate FloatAssert class works as a bridge between AssertJ's{@link AbstractFloatAssert} and 
  * {@link FluentPdfAsserter}.
  * The class is package private because the main entry point for PDF verifications should be {@link PdfAssertions}.
  * 
  * @author cwc
  *
  */
-public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> implements FluentPdfAsserter {
+public class FloatAssert extends AbstractFloatAssert<FloatAssert> implements FluentPdfAsserter {
 
 	/** the PDF document under test */
 	private PDDocument pdfUnderTest;
 	
 	/**
-	 * Package private constructor for {@link IntegerAssert} to prevent public usage.
+	 * Package private constructor for {@link FloatAssert} to prevent public usage.
 	 * 
-	 * @param actualInt the integer value under test
+	 * @param pDate the float value under test
 	 * @param pPdf the PDF document under test
 	 */
-	IntegerAssert(final Integer actualInt, final PDDocument pPdf) {
-		super(actualInt, IntegerAssert.class);
+	@SuppressFBWarnings("CD_CIRCULAR_DEPENDENCY")
+	FloatAssert(final Float pActualFloat, final PDDocument pPdf) {
+		super(pActualFloat, FloatAssert.class);
 		pdfUnderTest = pPdf;
 	}
 

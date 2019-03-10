@@ -1,4 +1,4 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 

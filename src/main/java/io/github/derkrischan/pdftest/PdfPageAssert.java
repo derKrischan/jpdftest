@@ -1,4 +1,4 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;

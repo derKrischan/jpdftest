@@ -1,4 +1,4 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 
 import org.apache.commons.lang3.StringUtils;

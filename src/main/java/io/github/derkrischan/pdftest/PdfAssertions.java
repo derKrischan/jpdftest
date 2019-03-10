@@ -1,4 +1,4 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
 import java.io.File;
 import java.io.InputStream;

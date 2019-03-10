@@ -1,4 +1,4 @@
-package org.capreolus.ver.pdf.image;
+package io.github.derkrischan.pdftest.image;
 
 import java.io.File;
 import java.io.IOException;

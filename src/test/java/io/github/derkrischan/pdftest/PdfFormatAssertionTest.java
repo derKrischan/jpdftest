@@ -1,8 +1,9 @@
-package org.capreolus.ver.pdf;
+package io.github.derkrischan.pdftest;
 
-import org.capreolus.ver.pdf.PdfAssertions;
-import org.capreolus.ver.pdf.PdfFormatAssert;
 import org.junit.Test;
+
+import io.github.derkrischan.pdftest.PdfAssertions;
+import io.github.derkrischan.pdftest.PdfFormatAssert;
 
 /**
  * Unit tests for {@link PdfFormatAssert}
