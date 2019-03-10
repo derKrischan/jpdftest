@@ -2,9 +2,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.capreolus</groupId>
 	<artifactId>jpdftest</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<description>Library to test PDF files programmatically.</description>
 	<url>https://github.com/derKrischan/jpdftest</url>
+	<name>jPdfTest</name>
+	
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<scm>
 		<connection>scm:git:https://github.com/derKrischan/jpdftest.git</connection>
@@ -12,6 +21,27 @@
 		<url>https://github.com/derKrischan/jpdftest</url>
 		<tag>HEAD</tag>
 	</scm>
+
+	<developers>
+		<developer>
+			<id>krischan</id>
+			<name>Christian Wiech</name>
+			<url>https://github.com/derKrischan/jpdftest</url>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+    	<snapshotRepository>
+      		<id>ossrh</id>
+      		<name>Sonatype Nexus Snapshots</name>
+      		<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    	</snapshotRepository>
+    	<repository>
+      		<id>ossrh</id>
+      		<name>Nexus Release Repository</name>
+      		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    	</repository>
+  	</distributionManagement>
 
 	<properties>
 		<java.version>1.8</java.version>
