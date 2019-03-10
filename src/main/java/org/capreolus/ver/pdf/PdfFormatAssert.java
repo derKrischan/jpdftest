@@ -52,6 +52,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, String> {
 			preflightParser.parse();
 		} catch (IOException e) {
 			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+			return this;
 		}
 		try (PreflightDocument document = preflightParser.getPreflightDocument()) { 
 			document.validate();
