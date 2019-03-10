@@ -12,3 +12,4 @@ log
 .idea
 todo.*
 release.properties
+pom.xml.releaseBackup
