@@ -1,10 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.capreolus</groupId>
 	<artifactId>jpdftest</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<description>Library to test PDF files programmatically.</description>
 	<url>https://github.com/derKrischan/jpdftest</url>
+	<name>jPdfTest</name>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<scm>
 		<connection>scm:git:https://github.com/derKrischan/jpdftest.git</connection>
@@ -12,6 +23,32 @@
 		<url>https://github.com/derKrischan/jpdftest</url>
 		<tag>HEAD</tag>
 	</scm>
+
+	<developers>
+		<developer>
+			<id>krischan</id>
+			<name>Christian Wiech</name>
+			<url>https://github.com/derKrischan/jpdftest</url>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<issueManagement>
+		<url>https://github.com/derKrischan/jpdftest/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -31,13 +68,16 @@
 		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
 		<maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
 		<maven-failsafe-plugin.version>2.20</maven-failsafe-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
 		<maven-source-plugin.version>3.0.1</maven-source-plugin.version>
 		<maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<plexus-compiler-eclipse>2.8.5</plexus-compiler-eclipse>
 		<versions-maven-plugin.version>2.7</versions-maven-plugin.version>
 
@@ -155,7 +195,7 @@
 						<tagNameFormat>@{project.artifactId}-@{project.version}</tagNameFormat>
 						<useReleaseProfile>false</useReleaseProfile>
 						<goals>deploy site-deploy</goals>
-						<releaseProfiles>dev</releaseProfiles>
+						<releaseProfiles>sonatype-oss-release</releaseProfiles>
 						<releaseVersion>${currentVersion.majorVersion}.${currentVersion.minorVersion}.${currentVersion.incrementalVersion}</releaseVersion>
 						<developmentVersion>${currentVersion.majorVersion}.${currentVersion.nextMinorVersion}.0-SNAPSHOT</developmentVersion>
 					</configuration>
@@ -283,8 +323,10 @@
 							</goals>
 							<configuration>
 								<transformers>
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 										<manifestEntries>
 											<Main-Class>${application.class}</Main-Class>
 											<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
@@ -367,6 +409,80 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Sonatype OSS release -->
+		<profile>
+			<id>sonatype-oss-release</id>
+			<build>
+				<plugins>
+					<!-- Source -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- Javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${maven-javadoc-plugin.version}</version>
+						<configuration>
+							<aggregate>true</aggregate>
+							<show>public</show>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- GPG -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven-gpg-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<keyname>${gpg.keyname}</keyname>
+									<passphraseServerId>${gpg.keyname}</passphraseServerId>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- Release plugin -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${nexus-staging-maven-plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
