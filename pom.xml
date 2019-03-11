@@ -255,6 +255,8 @@
 					<version>${maven-deploy-plugin.version}</version>
 					<configuration>
 						<uniqueVersion>false</uniqueVersion>
+						<!-- Skip execution in favor for nexus-staging-maven-plugin -->
+						<skip>true</skip>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -374,6 +376,17 @@
 						</execution>
 					</executions>
 				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${nexus-staging-maven-plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -472,17 +485,10 @@
 						</executions>
 					</plugin>
 
-					<!-- Release plugin -->
+					<!-- Deploy via nexus-staging-maven-plugin -->
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
