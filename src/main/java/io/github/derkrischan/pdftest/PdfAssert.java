@@ -61,6 +61,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		PDDocument doc = null;
 		try {
 			doc = PDDocument.load(pFile);
+			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
 			fail("Unable to open because of missing password: " + e.getMessage());
 		} catch (IOException e) {
