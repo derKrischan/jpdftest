@@ -469,7 +469,7 @@
 									<goal>sign</goal>
 								</goals>
 								<configuration>
-									<keyname>Christian Wiech</keyname>
+									<keyname>05338FA434B8A228</keyname>
 									<passphraseServerId>gpg.krischan</passphraseServerId>
 									<useAgent>true</useAgent>
 								</configuration>
