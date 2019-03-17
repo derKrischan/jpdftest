@@ -7,7 +7,7 @@ import io.github.derkrischan.pdftest.PdfFormatAssert;
 
 /**
  * Unit tests for {@link PdfFormatAssert}
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfFormatAssertionTest {

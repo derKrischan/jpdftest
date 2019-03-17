@@ -10,7 +10,7 @@ import io.github.derkrischan.pdftest.image.MetricRectangle;
 /**
  * Unit tests for embedded image verification in PDFs. 
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfImageAssertionTest {

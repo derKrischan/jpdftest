@@ -4,12 +4,12 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * 
- * A rectangle defined in Anglo-Saxon inches.
+ * A rectangle defined in Anglo-Saxon inches (imperial units).
  * 
- * @author cwc
+ * @author krischan
  *
  */
-public class AngloSaxonRectangle {
+public class ImperialRectangle {
 
 	/** pixel to inch fraction (1 point = 1/72 inches) */ 
 	private static final double POINT_INCH_FRACTION = 72.0; 
@@ -27,14 +27,14 @@ public class AngloSaxonRectangle {
 	private final double height;
 	
 	/**
-	 * Constructor for {@link AngloSaxonRectangle}.
+	 * Constructor for {@link ImperialRectangle}.
 	 * 
 	 * @param pX lower left X coordinate in inches
 	 * @param pY lower left y coordinate in inches
 	 * @param pWidth box width in inches
 	 * @param pHeight box height in inches
 	 */
-	public AngloSaxonRectangle(final double pX, final double pY, final double pWidth, final double pHeight) {
+	public ImperialRectangle(final double pX, final double pY, final double pWidth, final double pHeight) {
 		x = pX;
 		y = pY;
 		width = pWidth;

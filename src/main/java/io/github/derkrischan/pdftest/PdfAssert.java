@@ -16,7 +16,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * {@link PdfAssert} provides several checks on PDF elements via fluent API.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {

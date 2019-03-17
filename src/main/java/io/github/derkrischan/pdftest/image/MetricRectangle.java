@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
  * 
  * A rectangle defined in millimeters.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class MetricRectangle {

@@ -13,7 +13,7 @@ import org.assertj.core.util.CheckReturnValue;
  * Instead it uses the PdfBox preflight parser to validate the given PDF
  * for conformity to PDF/A-1b standard.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, String> {

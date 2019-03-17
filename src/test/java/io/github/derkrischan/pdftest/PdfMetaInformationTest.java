@@ -8,7 +8,7 @@ import io.github.derkrischan.pdftest.PdfAssertions;
  * 
  * Tests for several assertions that can be performed for meta informations stored in PDF.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfMetaInformationTest {

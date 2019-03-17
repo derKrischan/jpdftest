@@ -11,7 +11,7 @@ import io.github.derkrischan.pdftest.image.MetricRectangle;
 /**
  * Tests for PDF text verification.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfTextAssertionTest {

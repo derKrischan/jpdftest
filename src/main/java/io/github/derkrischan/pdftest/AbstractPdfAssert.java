@@ -6,7 +6,7 @@ import org.assertj.core.api.AbstractAssert;
 /**
  * Abstract base class for PDF assertion granting the implementation of {@link FluentPdfAsserter} with navigation between PDF pages and back to the whole document.
  * 
- * @author cwc
+ * @author krischan
  *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
