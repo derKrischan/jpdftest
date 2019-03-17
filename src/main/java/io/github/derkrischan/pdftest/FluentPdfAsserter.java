@@ -5,7 +5,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 /**
  * Interface for fluent PDF testing providing methods that every asserter must implement to switch between pages and the whole document.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public interface FluentPdfAsserter {
@@ -38,7 +38,7 @@ public interface FluentPdfAsserter {
 	 * Little helper class to prevent the implementation in every implementing class to return
 	 * a {@link PdfPageAssert} for a given page with checks for a valid page number.
 	 * 
-	 * @author cwc
+	 * @author krischan
 	 *
 	 */
 	class FluentPdfAssertionHelper {

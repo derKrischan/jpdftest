@@ -10,7 +10,7 @@ import org.assertj.core.api.AbstractCharSequenceAssert;
  * {@link FluentPdfAsserter}.
  * The class is package private because the main entry point for PDF verifications should be {@link PdfAssertions}.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> implements FluentPdfAsserter {

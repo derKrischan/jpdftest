@@ -19,7 +19,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
  * This might be helpful for creating test data from already manually proven PDF files.
  * Create a small unit test calling this helper or start the simple main method appended to this class to get the images. 
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public final class PdfImageExtracter {

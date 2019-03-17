@@ -9,7 +9,7 @@ import org.assertj.core.api.AbstractIntegerAssert;
  * {@link FluentPdfAsserter}.
  * The class is package private because the main entry point for PDF verifications should be {@link PdfAssertions}.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> implements FluentPdfAsserter {

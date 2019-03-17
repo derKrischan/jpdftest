@@ -8,7 +8,7 @@ import org.assertj.core.util.CheckReturnValue;
 /**
  * Central collection of public accessible PDF asserters. 
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public final class PdfAssertions {

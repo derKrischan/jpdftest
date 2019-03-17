@@ -33,7 +33,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * {@link PdfPageAssert} provides several checks on PDF pages via fluent API.
  * 
- * @author cwc
+ * @author krischan
  *
  */
 public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
@@ -192,7 +192,7 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 	/**
 	 * Helper class to search for an image resources in a given rectangular area.
 	 * 
-	 * @author cwc
+	 * @author krischan
 	 *
 	 */
 	static class ImageLocationTestEngine extends PDFStreamEngine {
