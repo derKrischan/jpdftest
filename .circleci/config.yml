@@ -7,7 +7,8 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11.0.2-jdk-stretch
+      #- image: circleci/openjdk:11.0.2-jdk-stretch
+      - image: maven:3.6.1-jdk-7-slim
 
     working_directory: ~/repo
 
@@ -32,9 +33,31 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # run tests!
+      # run build and unit tests
       - run: mvn package
+
+  analyze:
+    docker:
+     - image: circleci/openjdk:11.0.5-jdk-stretch  
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:  
+      - checkout
+
+      - run: mvn -DskipTests=true package
       
-      # static code analyse
+      # static code analysis
       - run: mvn sonar:sonar -Dsonar.projectKey=derKrischan_jpdftest -Dsonar.organization=derkrischan-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
 
+workflows:
+  version: 2
+  build_and_analyze:
+    jobs:
+      - build
+      - analyze:
+          requires:
+            - build
