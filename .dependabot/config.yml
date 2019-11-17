@@ -1,14 +1,14 @@
 version: 1
 update_configs:
-  - package_manager: java:maven
+  - package_manager: "java:maven"
     directory: "/"
-    update_schedule: daily
+    update_schedule: "weekly"
     default_reviewers:
       - "derKrischan"
     # ignore some JDK 7 incompatible updates
     ignored_updates:
       - match:
-        dependency_name: "org.assertj:assertj-core"
+          dependency_name: "org.assertj:assertj-core"
       - match:
-        dependency_name: "org.apache.commons:commons-lang3"
+          dependency_name: "org.apache.commons:commons-lang3"
        
