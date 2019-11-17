@@ -36,7 +36,7 @@ jobs:
       # run tests!
       - run: mvn package
 
-  analyse:
+  analyze:
     docker:
      - image: circleci/openjdk:11.0.5-jdk-stretch  
     working_directory: ~/repo
@@ -49,3 +49,11 @@ jobs:
       # static code analyse
       - run: mvn sonar:sonar -Dsonar.projectKey=derKrischan_jpdftest -Dsonar.organization=derkrischan-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
 
+workflows:
+  version: 2
+  build_and_analyze:
+    jobs:
+      - build
+      - analyze:
+          requires:
+            - build
