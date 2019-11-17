@@ -46,18 +46,6 @@ Asserters may be used to traverse from documents to single pages and back to the
 * Check the creation date of a PDF document
 * Check the document version
 
-## To-Do
-
-* Assertion for text color
-* Assertion for font type
-* Assertion for font style (bold, italic, underlined, ...)
-* Assertion for font size
-* Encrypted PDF support
-* Signature check support
-* landscape vs. portrait support
-* Check for paper size (letter, A4, ...)
-* ...
-
 ## Tech
 
 * The project uses [PdfBox](https://pdfbox.apache.org/) which tries to create a font cache in system temp directory. In case the user has no write access for that directory, an error occurs. In order to specify the font cache directory use the property "pdfbox.fontcache" via command line. E.g. :
