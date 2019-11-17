@@ -9,7 +9,8 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "org.assertj:assertj-core"
-          version_requirement: "(,3.0.0)"
+          version_requirement: "< 3.0.0"
       - match:
           dependency_name: "org.apache.commons:commons-lang3"
+          version_requirement: "< 3.9"
        
