@@ -48,6 +48,8 @@ jobs:
     steps:  
       - checkout
 
+      - run: mvn -DskipTests=true package
+      
       # static code analysis
       - run: mvn sonar:sonar -Dsonar.projectKey=derKrischan_jpdftest -Dsonar.organization=derkrischan-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
 
