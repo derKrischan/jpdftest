@@ -74,7 +74,7 @@
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
 		<maven-source-plugin.version>3.2.0</maven-source-plugin.version>
-		<maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<plexus-compiler-eclipse>2.8.5</plexus-compiler-eclipse>
 		<versions-maven-plugin.version>2.7</versions-maven-plugin.version>
