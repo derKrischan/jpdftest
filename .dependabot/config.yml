@@ -3,10 +3,12 @@ update_configs:
   - package_manager: java:maven
     directory: "/"
     update_schedule: daily
+    default_reviewers:
+      - "derKrischan"
+    # ignore some JDK 7 incompatible updates
     ignored_updates:
       - match:
         dependency_name: "org.assertj:assertj-core"
-        version_requirement: "(,3.0.0)"
       - match:
         dependency_name: "org.apache.commons:commons-lang3"
-        version_requirement: "(,3.8.1]"
+       
