@@ -32,6 +32,7 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.data.Offset;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.github.derkrischan.pdftest.page.Orientation;
 import io.github.derkrischan.pdftest.page.PaperSize;
 
 /**
@@ -147,6 +148,38 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 	public PdfPageAssert hasPaperSize(final float width, final float height, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
 		new FloatAssert(actual.getBBox().getWidth()).isCloseTo(width, Offset.offset(widthToleranceInMillimeter));
 		new FloatAssert(actual.getBBox().getHeight()).isCloseTo(height, Offset.offset(heightToleranceInMillimeter));
+		return this;
+	}
+	
+	/**
+	 * Checks the page orientation as displayed for expectation (see {@link Orientation}).
+	 * The check also respects page rotation. A page with portrait dimensions and rotated clock wise 90°
+	 * will be reported as a page with landscape orientation.
+	 * 
+	 * @param orientation the expected page orientation
+	 * @return this asserter instance
+	 */
+	public PdfPageAssert hasPageOrientation(final Orientation orientation) {
+		switch (orientation) {
+		case LANDSCAPE: 
+			if (actual.getBBox().getWidth() < actual.getBBox().getHeight()) {
+				if (actual.getRotation() % 180 == 0) {
+					failWithMessage("Page orientation is not landscape.");
+				}
+			} else if (actual.getRotation() % 180 != 0) {
+				failWithMessage("Page orientation is not landscape.");
+			}
+			break;
+		case PORTRAIT:
+			if (actual.getBBox().getHeight() < actual.getBBox().getWidth()) {
+				if (actual.getRotation() % 180 == 0) {
+					failWithMessage("Page orientation is not portrait.");
+				}
+			} else if (actual.getRotation() % 180 != 0) {
+				failWithMessage("Page orientation is not portrait.");
+			}
+			break;
+		}
 		return this;
 	}
 	
