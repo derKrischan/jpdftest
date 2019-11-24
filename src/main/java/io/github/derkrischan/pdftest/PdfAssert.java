@@ -1,7 +1,5 @@
 package io.github.derkrischan.pdftest;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +7,7 @@ import java.io.InputStream;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.assertj.core.api.Fail;
 import org.assertj.core.util.CheckReturnValue;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -66,9 +65,9 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 			doc = PDDocument.load(pFile);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
-			fail("Unable to open file " + pFile.getName() + ": " + e.getMessage());
+			Fail.fail("Unable to open file " + pFile.getName() + ": " + e.getMessage());
 		}
 		return new PdfAssert(doc);
 	}
@@ -86,9 +85,9 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pInputStream);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
-			fail("Unable to read PDF from InputStream: " + e.getMessage());
+			Fail.fail("Unable to read PDF from InputStream: " + e.getMessage());
 		}
 		return new PdfAssert(doc);
 	}
@@ -106,9 +105,9 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pBytes);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
-			fail("Unable to read PDF from bytes: " + e.getMessage());
+			Fail.fail("Unable to read PDF from bytes: " + e.getMessage());
 		}
 		return new PdfAssert(doc);
 	}
