@@ -22,13 +22,17 @@ import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.PDXObject;
 import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.apache.pdfbox.util.Matrix;
+import org.assertj.core.api.FloatAssert;
+import org.assertj.core.data.Offset;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.github.derkrischan.pdftest.page.PaperSize;
 
 /**
  * {@link PdfPageAssert} provides several checks on PDF pages via fluent API.
@@ -108,6 +112,21 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 		return this;
 	}
 
+	public PdfPageAssert hasPaperSize(final PaperSize paperSize) {
+		return hasPaperSize(paperSize.getRectangle(), paperSize.getWidthToleranceInMillimeter(), paperSize.getHeightToleranceInMillimeter());
+	}
+	
+	public PdfPageAssert hasPaperSize(final PDRectangle rectangle, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
+		return hasPaperSize(rectangle.getWidth(), rectangle.getHeight(), widthToleranceInMillimeter, heightToleranceInMillimeter);
+	}
+	
+	public PdfPageAssert hasPaperSize(final float width, final float height, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
+		new FloatAssert(actual.getBBox().getWidth()).isCloseTo(width, Offset.offset(widthToleranceInMillimeter));
+		new FloatAssert(actual.getBBox().getHeight()).isCloseTo(height, Offset.offset(heightToleranceInMillimeter));
+		return this;
+	}
+	
+	
 	/**
 	 * Checks whether the image loaded from given image file name is found in given region at page under test.
 	 * 
