@@ -20,6 +20,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 
+	/** standard error message for missing password exceptions */
+	private static final String MISSING_PASSWORD_ERROR_MSG = "Unable to open because of missing password: ";
+	
 	/**
 	 * Package private constructor for {@link PdfAssert} to prevent public usage.
 	 * 
@@ -62,7 +65,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 			doc = PDDocument.load(pFile);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			Fail.fail("Unable to open because of missing password: " + e.getMessage());
+			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to open file " + pFile.getName() + ": " + e.getMessage());
 		}
@@ -82,7 +85,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pInputStream);
 		} catch (InvalidPasswordException e) {
-			Fail.fail("Unable to open because of missing password: " + e.getMessage());
+			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from InputStream: " + e.getMessage());
 		}
@@ -102,7 +105,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pBytes);
 		} catch (InvalidPasswordException e) {
-			Fail.fail("Unable to open because of missing password: " + e.getMessage());
+			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from bytes: " + e.getMessage());
 		}
