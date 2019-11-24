@@ -65,7 +65,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 			doc = PDDocument.load(pFile);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to open file " + pFile.getName() + ": " + e.getMessage());
 		}
@@ -85,7 +85,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pInputStream);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from InputStream: " + e.getMessage());
 		}
@@ -105,7 +105,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		try {
 			doc = PDDocument.load(pBytes);
 		} catch (InvalidPasswordException e) {
-			fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from bytes: " + e.getMessage());
 		}
