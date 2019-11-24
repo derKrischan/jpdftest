@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.derkrischan</groupId>
 	<artifactId>jpdftest</artifactId>
@@ -68,6 +70,7 @@
 		<maven-failsafe-plugin.version>2.20</maven-failsafe-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+		<maven-jacoco-plugin.version>0.8.5</maven-jacoco-plugin.version>
 		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -156,8 +159,10 @@
 							<origin>origin</origin>
 						</gitFlowConfig>
 						<commitMessages>
-							<featureStartMessage>update ${project.artifactId} versions for new feature branch @{featureName}:@{version}</featureStartMessage>
-							<featureFinishMessage>update versions for development branch @{featureName}:@{version}</featureFinishMessage>
+							<featureStartMessage>update ${project.artifactId} versions for
+								new feature branch @{featureName}:@{version}</featureStartMessage>
+							<featureFinishMessage>update versions for development branch
+								@{featureName}:@{version}</featureFinishMessage>
 							<hotfixStartMessage>update versions for new hotfix @{version}</hotfixStartMessage>
 							<hotfixFinishMessage>update for next version @{version}</hotfixFinishMessage>
 							<releaseStartMessage>update versions for new release @{version}</releaseStartMessage>
@@ -319,8 +324,10 @@
 							</goals>
 							<configuration>
 								<transformers>
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 										<manifestEntries>
 											<Main-Class>${application.class}</Main-Class>
 											<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
@@ -379,6 +386,42 @@
 						<autoReleaseAfterClose>true</autoReleaseAfterClose>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${maven-jacoco-plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>report</id>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>jacoco-check</id>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<configuration>
+								<rules>
+									<rule>
+										<limits>
+											<limit>
+												<minimum>0.8</minimum>
+											</limit>
+										</limits>
+									</rule>
+								</rules>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -410,6 +453,10 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
