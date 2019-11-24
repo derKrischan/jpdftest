@@ -179,6 +179,8 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 				failWithMessage("Page orientation is not portrait.");
 			}
 			break;
+		default:
+			failWithMessage("Unsupported orientation mode: " + orientation);
 		}
 		return this;
 	}
