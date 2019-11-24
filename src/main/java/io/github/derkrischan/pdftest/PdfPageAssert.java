@@ -32,6 +32,7 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.data.Offset;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.github.derkrischan.pdftest.page.Orientation;
 import io.github.derkrischan.pdftest.page.PaperSize;
 
 /**
@@ -112,17 +113,75 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 		return this;
 	}
 
+	/**
+	 * Checks whether the current page has the expected paper size (see {@link PaperSize}).
+	 * The paper size already includes tolerances defined in DIN standard.
+	 * 
+	 * @param paperSize the expected paper size
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final PaperSize paperSize) {
 		return hasPaperSize(paperSize.getRectangle(), paperSize.getWidthToleranceInMillimeter(), paperSize.getHeightToleranceInMillimeter());
 	}
 	
+	/**
+	 * Checks whether the current page has the expected size respecting given tolerance values.
+	 * 
+	 * @param rectangle the expected paper size
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final PDRectangle rectangle, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
 		return hasPaperSize(rectangle.getWidth(), rectangle.getHeight(), widthToleranceInMillimeter, heightToleranceInMillimeter);
 	}
 	
+	/**
+	 * Checks whether the current page has the expected size respecting given tolerance values.
+	 * 
+	 * @param width the expected paper width
+	 * @param height the expected paper height
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final float width, final float height, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
 		new FloatAssert(actual.getBBox().getWidth()).isCloseTo(width, Offset.offset(widthToleranceInMillimeter));
 		new FloatAssert(actual.getBBox().getHeight()).isCloseTo(height, Offset.offset(heightToleranceInMillimeter));
+		return this;
+	}
+	
+	/**
+	 * Checks the page orientation as displayed for expectation (see {@link Orientation}).
+	 * The check also respects page rotation. A page with portrait dimensions and rotated clock wise 90°
+	 * will be reported as a page with landscape orientation.
+	 * 
+	 * @param orientation the expected page orientation
+	 * @return this asserter instance
+	 */
+	public PdfPageAssert hasPageOrientation(final Orientation orientation) {
+		switch (orientation) {
+		case LANDSCAPE: 
+			if (actual.getBBox().getWidth() < actual.getBBox().getHeight()) {
+				if (actual.getRotation() % 180 == 0) {
+					failWithMessage("Page orientation is not landscape.");
+				}
+			} else if (actual.getRotation() % 180 != 0) {
+				failWithMessage("Page orientation is not landscape.");
+			}
+			break;
+		case PORTRAIT:
+			if (actual.getBBox().getHeight() < actual.getBBox().getWidth()) {
+				if (actual.getRotation() % 180 == 0) {
+					failWithMessage("Page orientation is not portrait.");
+				}
+			} else if (actual.getRotation() % 180 != 0) {
+				failWithMessage("Page orientation is not portrait.");
+			}
+			break;
+		default:
+			failWithMessage("Unsupported orientation mode: " + orientation);
+		}
 		return this;
 	}
 	
