@@ -112,14 +112,38 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 		return this;
 	}
 
+	/**
+	 * Checks whether the current page has the expected paper size (see {@link PaperSize}).
+	 * The paper size already includes tolerances defined in DIN standard.
+	 * 
+	 * @param paperSize the expected paper size
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final PaperSize paperSize) {
 		return hasPaperSize(paperSize.getRectangle(), paperSize.getWidthToleranceInMillimeter(), paperSize.getHeightToleranceInMillimeter());
 	}
 	
+	/**
+	 * Checks whether the current page has the expected size respecting given tolerance values.
+	 * 
+	 * @param rectangle the expected paper size
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final PDRectangle rectangle, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
 		return hasPaperSize(rectangle.getWidth(), rectangle.getHeight(), widthToleranceInMillimeter, heightToleranceInMillimeter);
 	}
 	
+	/**
+	 * Checks whether the current page has the expected size respecting given tolerance values.
+	 * 
+	 * @param width the expected paper width
+	 * @param height the expected paper height
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
 	public PdfPageAssert hasPaperSize(final float width, final float height, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
 		new FloatAssert(actual.getBBox().getWidth()).isCloseTo(width, Offset.offset(widthToleranceInMillimeter));
 		new FloatAssert(actual.getBBox().getHeight()).isCloseTo(height, Offset.offset(heightToleranceInMillimeter));
