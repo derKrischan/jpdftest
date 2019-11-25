@@ -72,10 +72,14 @@ public class StringAssert extends AbstractCharSequenceAssert<StringAssert, Strin
 		return result;
 	}
 
+	@Deprecated()
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
 		}
 		if (!(obj instanceof StringAssert)) {
 			return false;
@@ -83,4 +87,5 @@ public class StringAssert extends AbstractCharSequenceAssert<StringAssert, Strin
 		StringAssert other = (StringAssert) obj;
 		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
 	}
+
 }

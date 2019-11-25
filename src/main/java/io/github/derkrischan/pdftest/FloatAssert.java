@@ -56,10 +56,14 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> implements Flu
 		return result;
 	}
 
+	@Deprecated()
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
 		}
 		if (!(obj instanceof FloatAssert)) {
 			return false;
@@ -67,4 +71,5 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> implements Flu
 		FloatAssert other = (FloatAssert) obj;
 		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
 	}
+
 }
