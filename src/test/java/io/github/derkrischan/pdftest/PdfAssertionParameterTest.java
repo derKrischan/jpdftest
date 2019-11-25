@@ -3,6 +3,7 @@ package io.github.derkrischan.pdftest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 
@@ -22,6 +23,11 @@ public class PdfAssertionParameterTest {
 	@Test
 	public void givenPdfAsFilename_shouldCreatePdfAssertions() {
 		PdfAssertions.assertThat("src/test/resources/pdf/dummy.pdf").pageCount().isEqualTo(1);
+	}
+
+	@Test
+	public void givenPdfAsPath_shouldCreatePdfAssertions() {
+		PdfAssertions.assertThat(Paths.get("src/test/resources/pdf/dummy.pdf")).pageCount().isEqualTo(1);
 	}
 
 	@Test
