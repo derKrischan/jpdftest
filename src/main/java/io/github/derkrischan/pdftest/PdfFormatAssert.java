@@ -59,7 +59,6 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, String> {
 
 		    // Get validation result
 			ValidationResult result = document.getResult();
-			document.close();
 		    if (!result.isValid()) {
 		    	failWithMessage(actual + " ist kein valides Dokument nach PDF/A-1b Spezifikation");
 		    }

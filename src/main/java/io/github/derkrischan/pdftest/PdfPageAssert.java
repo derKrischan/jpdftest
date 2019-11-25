@@ -331,15 +331,12 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 			float y = pMatrix.getTranslateY();
 			float imageWidth = pMatrix.getScalingFactorX();
             float imageHeight = pMatrix.getScalingFactorY();
-            if (x >= region.getX() && x <= region.getX() + region.getWidth()) {
-            	if (y >= region.getY() && y <= region.getY() + region.getHeight()) {
-            		if (imageWidth <= region.getWidth() && x + imageWidth <= region.getX() + region.getWidth()) {
-            			if (imageHeight <= region.getHeight() && y + imageHeight <= region.getY() + region.getHeight()) {
-            				return true;
-            			}
-            		}
-            	}
-            }
+            if (x >= region.getX() && x <= region.getX() + region.getWidth()
+            	&& y >= region.getY() && y <= region.getY() + region.getHeight()
+            	&& imageWidth <= region.getWidth() && x + imageWidth <= region.getX() + region.getWidth()
+            	&& imageHeight <= region.getHeight() && y + imageHeight <= region.getY() + region.getHeight()) {
+    				return true;
+    			}
             return false;
 		}
 		
