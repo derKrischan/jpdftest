@@ -55,10 +55,14 @@ public abstract class AbstractPdfAssert<S extends AbstractAssert<S, A>, A> exten
 		return result;
 	}
 
+	@Deprecated()
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
 		}
 		if (!(obj instanceof AbstractPdfAssert)) {
 			return false;
@@ -66,4 +70,5 @@ public abstract class AbstractPdfAssert<S extends AbstractAssert<S, A>, A> exten
 		AbstractPdfAssert<?, ?> other = (AbstractPdfAssert<?, ?>) obj;
 		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
 	}
+
 }

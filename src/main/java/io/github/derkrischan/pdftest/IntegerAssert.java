@@ -53,10 +53,14 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> implemen
 		return result;
 	}
 
+	@Deprecated()
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
 		}
 		if (!(obj instanceof IntegerAssert)) {
 			return false;
@@ -64,4 +68,5 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> implemen
 		IntegerAssert other = (IntegerAssert) obj;
 		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
 	}
+
 }

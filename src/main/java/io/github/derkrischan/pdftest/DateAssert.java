@@ -53,10 +53,14 @@ public class DateAssert extends AbstractDateAssert<DateAssert> implements Fluent
 		return result;
 	}
 
+	@Deprecated()
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
 		}
 		if (!(obj instanceof DateAssert)) {
 			return false;
@@ -64,4 +68,5 @@ public class DateAssert extends AbstractDateAssert<DateAssert> implements Fluent
 		DateAssert other = (DateAssert) obj;
 		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
 	}
+
 }
