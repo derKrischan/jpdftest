@@ -3,6 +3,7 @@ package io.github.derkrischan.pdftest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -26,48 +27,48 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	/**
 	 * Package private constructor for {@link PdfAssert} to prevent public usage.
 	 * 
-	 * @param pActualPdf the PDF document under test
+	 * @param actualPdf the PDF document under test
 	 */
 	@SuppressFBWarnings("CD_CIRCULAR_DEPENDENCY")
-	PdfAssert(final PDDocument pActualPdf) {
-		super(pActualPdf, PdfAssert.class, pActualPdf);
+	PdfAssert(final PDDocument actualPdf) {
+		super(actualPdf, PdfAssert.class, actualPdf);
 	}
 
 	/**
 	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
 	 * for the given PDF document file name if the file is a valid path.
 	 * 
-	 * @param pFileName the PDF document file name
+	 * @param fileName the PDF document file name
 	 * @return a new instance of {@link PdfAssert} for the given PDF document
 	 */
 	@CheckReturnValue
-	static PdfAssert assertThat(String pFileName) {
-		return assertThat(new File(pFileName));
+	static PdfAssert assertThat(final String fileName) {
+		return assertThat(new File(fileName));
 	}
 	
 	/**
 	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
 	 * for the given PDF document file if the file is valid.
 	 * 
-	 * @param pFile the PDF document file
+	 * @param file the PDF document file
 	 * @return a new instance of {@link PdfAssert} for the given PDF document
 	 */
 	@CheckReturnValue
-	static PdfAssert assertThat(File pFile) {
-		if (pFile == null) {
+	static PdfAssert assertThat(final File file) {
+		if (file == null) {
 			throw new IllegalArgumentException("PDF file cannot be NULL.");
 		}
-		if (!pFile.exists()) {
+		if (!file.exists()) {
 			throw new IllegalArgumentException("PDF file does not exist.");
 		}
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(pFile);
+			doc = PDDocument.load(file);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
 			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
-			Fail.fail("Unable to open file " + pFile.getName() + ": " + e.getMessage());
+			Fail.fail("Unable to open file " + file.getName() + ": " + e.getMessage());
 		}
 		return new PdfAssert(doc);
 	}
@@ -76,14 +77,14 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
 	 * for the given PDF input stream if the stream content is a valid PDF.
 	 * 
-	 * @param pInputStream the PDF document input stream
+	 * @param inputStream the PDF document input stream
 	 * @return a new instance of {@link PdfAssert} for the given PDF document
 	 */
 	@CheckReturnValue
-	static PdfAssert assertThat(InputStream pInputStream) {
+	static PdfAssert assertThat(final InputStream inputStream) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(pInputStream);
+			doc = PDDocument.load(inputStream);
 		} catch (InvalidPasswordException e) {
 			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
@@ -96,20 +97,32 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
 	 * for the given PDF as byte array if the array content is a valid PDF.
 	 * 
-	 * @param pBytes the PDF document as byte array
+	 * @param bytes the PDF document as byte array
 	 * @return a new instance of {@link PdfAssert} for the given PDF document
 	 */
 	@CheckReturnValue
-	static PdfAssert assertThat(byte[] pBytes) {
+	static PdfAssert assertThat(final byte[] bytes) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(pBytes);
+			doc = PDDocument.load(bytes);
 		} catch (InvalidPasswordException e) {
 			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from bytes: " + e.getMessage());
 		}
 		return new PdfAssert(doc);
+	}
+	
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF as {@link Path}.
+	 * 
+	 * @param pBytes the PDF document as byte array
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final Path path) {
+		return assertThat(path.toFile());
 	}
 	
 	/**
@@ -203,20 +216,20 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	/**
 	 * Extracts the text between given pages from the PDF document under test and returns a {@link StringAssert} for it.
 	 * 
-	 * @param pStartPage the start page to extract text from (inclusive)
-	 * @param pEndPage the end page to extract text from (inclusive)
+	 * @param startPage the start page to extract text from (inclusive)
+	 * @param endPage the end page to extract text from (inclusive)
 	 * @return a {@link StringAssert} for the documents text between given pages
 	 */
-	public StringAssert textBetweenPages(final int pStartPage, final int pEndPage) {
+	public StringAssert textBetweenPages(final int startPage, final int endPage) {
 		isNotNull();
-		if (pStartPage < 1 || pStartPage > pEndPage || pEndPage > actual.getNumberOfPages()) {
+		if (startPage < 1 || startPage > endPage || endPage > actual.getNumberOfPages()) {
 			failWithMessage("Illegal start- and end page provided.");
 			return null;
 		}
 		try {
 			PDFTextStripper stripper = new PDFTextStripper();
-			stripper.setStartPage(pStartPage);
-			stripper.setEndPage(pEndPage);
+			stripper.setStartPage(startPage);
+			stripper.setEndPage(endPage);
 			return new StringAssert(stripper.getText(actual), getPdfUnderTest());
 		} catch (IOException err) {
 			failWithMessage("Unable to extract text from PDF page: " + err.getMessage());

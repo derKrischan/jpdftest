@@ -2,6 +2,7 @@ package io.github.derkrischan.pdftest;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 
 import org.assertj.core.util.CheckReturnValue;
 
@@ -39,56 +40,67 @@ public final class PdfAssertions {
 	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from {@link File}.
 	 * 
-	 * @param pFile the {@link File} for the PDF document to test
+	 * @param file the {@link File} for the PDF document to test
 	 * @return a new instance of {@link PdfAssert} if pFile is a valid PDF
 	 */
 	@CheckReturnValue
-	public static PdfAssert assertThat(final File pFile) {
-		return PdfAssert.assertThat(pFile);
+	public static PdfAssert assertThat(final File file) {
+		return PdfAssert.assertThat(file);
 	}
 
 	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from file name as string.
 	 * 
-	 * @param pFileName the string representation for the PDF document to test
+	 * @param fileName the string representation for the PDF document to test
 	 * @return a new instance of {@link PdfAssert} if pFileName represents a valid PDF
 	 */
 	@CheckReturnValue
-	public static PdfAssert assertThat(final String pFileName) {
-		return PdfAssert.assertThat(pFileName);
+	public static PdfAssert assertThat(final String fileName) {
+		return PdfAssert.assertThat(fileName);
 	}
 
 	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from {@link InputStream}.
 	 * 
-	 * @param pInputStream the {@link InputStream} for the PDF document to test
+	 * @param inputStream the {@link InputStream} for the PDF document to test
 	 * @return a new instance of {@link PdfAssert} from PDF stream
 	 */
 	@CheckReturnValue
-	public static PdfAssert assertThat(final InputStream pInputStream) {
-		return PdfAssert.assertThat(pInputStream);
+	public static PdfAssert assertThat(final InputStream inputStream) {
+		return PdfAssert.assertThat(inputStream);
 	}
 
 	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from array of bytes.
 	 * 
-	 * @param pBytes the PDF document to test as byte array
+	 * @param bytes the PDF document to test as byte array
 	 * @return a new instance of {@link PdfAssert} from PDF byte array
 	 */
 	@CheckReturnValue
-	public static PdfAssert assertThat(final byte[] pBytes) {
-		return PdfAssert.assertThat(pBytes);
+	public static PdfAssert assertThat(final byte[] bytes) {
+		return PdfAssert.assertThat(bytes);
+	}
+	
+	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from {@link Path}.
+	 * 
+	 * @param path the PDF document to test as {@link Path}
+	 * @return a new instance of {@link PdfAssert} from PDF byte array
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final Path path) {
+		return PdfAssert.assertThat(path);
 	}
 
 	/**
 	 * Creates a {@link PdfFormatAssert} for the given PDF document from file name as string.
 	 * 
-	 * @param pFileName the string representation for the PDF document to validate
+	 * @param fileName the string representation for the PDF document to validate
 	 * @return a new instance of {@link PdfAssert} if pFileName represents a valid PDF path
 	 */
 	@CheckReturnValue
-	public static PdfFormatAssert assertFormatPdf1A(final String pFileName) {
-		return PdfFormatAssert.assertThat(pFileName);
+	public static PdfFormatAssert assertFormatPdf1A(final String fileName) {
+		return PdfFormatAssert.assertThat(fileName);
 	}
 	
 	
