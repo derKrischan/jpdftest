@@ -25,7 +25,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 public final class PdfImageExtracter {
 
 	/** atomic counter used to number the exported images */
-	private static transient AtomicInteger counter = new AtomicInteger(0);
+	private static AtomicInteger counter = new AtomicInteger(0);
 	
 	/**
 	 * Private constructor to prevent instantiation of utility class.
@@ -39,9 +39,9 @@ public final class PdfImageExtracter {
 	 * 
 	 * @param pPdfFileName name of the PDF file path
 	 * @param pExportFolderName name of the image export folder
-	 * @throws Exception in case of an error extracting or storing the images from PDF
+	 * @throws IOException in case of an error extracting or storing the images from PDF
 	 */
-	public static void extractAllImagesFromPdfToFolder(String pPdfFileName, String pExportFolderName) throws Exception {
+	public static void extractAllImagesFromPdfToFolder(String pPdfFileName, String pExportFolderName) throws IOException {
 		PDDocument doc = PDDocument.load(new File(pPdfFileName));
 		for (PDPage page : doc.getPages()) {
 			extractImagesFromResource(page.getResources(), pExportFolderName);
@@ -71,9 +71,9 @@ public final class PdfImageExtracter {
 	 * Simple starter for this utility that takes two arguments and passes them to extractAllImagesFromPdfToFolder.
 	 * 
 	 * @param pArgs the first argument should be the path to the PDF file, the second one should be the export folder path.
-	 * @throws Exception in case of an error 
+	 * @throws IOException in case of an error 
 	 */
-	public static void main(final String[] pArgs) throws Exception {
+	public static void main(final String[] pArgs) throws IOException {
 		PdfImageExtracter.extractAllImagesFromPdfToFolder(pArgs[0], pArgs[1]);
 	}
 }
