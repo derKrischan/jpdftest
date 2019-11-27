@@ -80,6 +80,7 @@
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<plexus-compiler-eclipse>2.8.5</plexus-compiler-eclipse>
+		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 		<versions-maven-plugin.version>2.7</versions-maven-plugin.version>
 
 		<!-- Dependency versions -->
@@ -421,6 +422,11 @@
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar-maven-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
