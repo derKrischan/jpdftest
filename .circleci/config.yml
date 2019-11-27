@@ -50,7 +50,7 @@ jobs:
       - run: mvn package
       
       # static code analysis
-      - run: mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
+      - run: mvn sonar:sonar -Dsonar.projectKey=derKrischan_jpdftest -Dsonar.organization=derkrischan-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
 
 workflows:
   version: 2
