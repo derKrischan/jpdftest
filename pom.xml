@@ -414,7 +414,7 @@
 									<rule>
 										<limits>
 											<limit>
-												<minimum>0.8</minimum>
+												<minimum>0.5</minimum>
 											</limit>
 										</limits>
 									</rule>
