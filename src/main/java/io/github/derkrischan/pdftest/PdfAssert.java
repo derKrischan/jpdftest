@@ -6,12 +6,16 @@ import java.io.InputStream;
 import java.nio.file.Path;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.assertj.core.api.Fail;
 import org.assertj.core.util.CheckReturnValue;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.github.derkrischan.pdftest.page.Orientation;
+import io.github.derkrischan.pdftest.page.PaperSize;
 
 /**
  * {@link PdfAssert} provides several checks on PDF elements via fluent API.
@@ -235,6 +239,62 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 			failWithMessage("Unable to extract text from PDF page: " + err.getMessage());
 			return null;
 		}
+	}
+	
+	/**
+	 * Checks that all pages of the whole document have the expected paper size (see {@link PaperSize}).
+	 * The paper size already includes tolerances defined in DIN standard.
+	 * 
+	 * @param paperSize the expected paper size
+	 * @return this asserter instance
+	 */
+	public PdfAssert hasPaperSize(final PaperSize paperSize) {
+		return hasPaperSize(paperSize.getRectangle(), paperSize.getWidthToleranceInMillimeter(), paperSize.getHeightToleranceInMillimeter());
+	}
+	
+	/**
+	 * Checks that all pages of the whole document have the expected size respecting given tolerance values.
+	 * 
+	 * @param rectangle the expected paper size
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
+	public PdfAssert hasPaperSize(final PDRectangle rectangle, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
+		return hasPaperSize(rectangle.getWidth(), rectangle.getHeight(), widthToleranceInMillimeter, heightToleranceInMillimeter);
+	}
+	
+	/**
+	 * Checks that all pages of the whole document have the expected size respecting given tolerance values.
+	 * 
+	 * @param width the expected paper width
+	 * @param height the expected paper height
+	 * @param widthToleranceInMillimeter the allowed tolerance in millimeter for page width
+	 * @param heightToleranceInMillimeter the allowed tolerance in millimeter for page height
+	 * @return this asserter instance
+	 */
+	public PdfAssert hasPaperSize(final float width, final float height, final float widthToleranceInMillimeter, final float heightToleranceInMillimeter) {
+		isNotNull();
+		for (PDPage page : getPdfUnderTest().getPages()) {
+			new PdfPageAssert(page, getPdfUnderTest()).hasPaperSize(width, height, widthToleranceInMillimeter, heightToleranceInMillimeter);
+		}
+		return this;
+	}
+	
+	/**
+	 * Checks the page orientation as displayed for expectation (see {@link Orientation}).
+	 * The check also respects page rotation. A page with portrait dimensions and rotated clock wise 90°
+	 * will be reported as a page with landscape orientation.
+	 * 
+	 * @param orientation the expected page orientation
+	 * @return this asserter instance
+	 */
+	public PdfAssert hasPageOrientation(final Orientation orientation) {
+		isNotNull();
+		for (PDPage page : getPdfUnderTest().getPages()) {
+			new PdfPageAssert(page, getPdfUnderTest()).hasPageOrientation(orientation);
+		}
+		return this;
 	}
 	
 }
