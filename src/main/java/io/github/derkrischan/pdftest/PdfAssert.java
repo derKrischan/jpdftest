@@ -89,6 +89,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		PDDocument doc = null;
 		try {
 			doc = PDDocument.load(inputStream);
+			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
 			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
@@ -109,6 +110,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		PDDocument doc = null;
 		try {
 			doc = PDDocument.load(bytes);
+			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
 			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
 		} catch (IOException e) {
