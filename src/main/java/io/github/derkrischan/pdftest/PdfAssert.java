@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -27,6 +28,9 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 
 	/** standard error message for missing password exceptions */
 	private static final String MISSING_PASSWORD_ERROR_MSG = "Unable to open because of missing password: ";
+
+	/** standard error message for wrong password exceptions */
+	private static final String WRONG_PASSWORD_ERROR_MSG = "Unable to open because of wrong password: ";
 	
 	/**
 	 * Package private constructor for {@link PdfAssert} to prevent public usage.
@@ -47,7 +51,20 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 */
 	@CheckReturnValue
 	static PdfAssert assertThat(final String fileName) {
-		return assertThat(new File(fileName));
+		return assertThat(fileName, null);
+	}
+	
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF document file name if the file is a valid path.
+	 * 
+	 * @param fileName the PDF document file name
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final String fileName, final String password) {
+		return assertThat(new File(fileName), password);
 	}
 	
 	/**
@@ -59,6 +76,19 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 */
 	@CheckReturnValue
 	static PdfAssert assertThat(final File file) {
+		return assertThat(file, null);
+	}
+	
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF document file if the file is valid.
+	 * 
+	 * @param file the PDF document file
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final File file, final String password) {
 		if (file == null) {
 			throw new IllegalArgumentException("PDF file cannot be NULL.");
 		}
@@ -67,10 +97,14 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		}
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(file);
+			doc = PDDocument.load(file, password);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			if (StringUtils.isBlank(password)) {
+				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			} else {
+				Fail.fail(WRONG_PASSWORD_ERROR_MSG + e.getMessage());
+			}
 		} catch (IOException e) {
 			Fail.fail("Unable to open file " + file.getName() + ": " + e.getMessage());
 		}
@@ -86,12 +120,29 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 */
 	@CheckReturnValue
 	static PdfAssert assertThat(final InputStream inputStream) {
+		return assertThat(inputStream, null);
+	}
+	
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF input stream if the stream content is a valid PDF.
+	 * 
+	 * @param inputStream the PDF document input stream
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final InputStream inputStream, final String password) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(inputStream);
+			doc = PDDocument.load(inputStream, password);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			if (StringUtils.isBlank(password)) {
+				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			} else {
+				Fail.fail(WRONG_PASSWORD_ERROR_MSG + e.getMessage());
+			}
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from InputStream: " + e.getMessage());
 		}
@@ -107,12 +158,29 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 */
 	@CheckReturnValue
 	static PdfAssert assertThat(final byte[] bytes) {
+		return assertThat(bytes, null);
+	}
+	
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF as byte array if the array content is a valid PDF.
+	 * 
+	 * @param bytes the PDF document as byte array
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final byte[] bytes, final String password) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(bytes);
+			doc = PDDocument.load(bytes, password);
 			doc.getDocument().setWarnMissingClose(false);
 		} catch (InvalidPasswordException e) {
-			Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			if (StringUtils.isBlank(password)) {
+				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
+			} else {
+				Fail.fail(WRONG_PASSWORD_ERROR_MSG + e.getMessage());
+			}
 		} catch (IOException e) {
 			Fail.fail("Unable to read PDF from bytes: " + e.getMessage());
 		}
@@ -128,7 +196,20 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	 */
 	@CheckReturnValue
 	static PdfAssert assertThat(final Path path) {
-		return assertThat(path.toFile());
+		return assertThat(path, null);
+	}
+
+	/**
+	 * Package private static asserter that creates a new instance of {@link PdfAssert} 
+	 * for the given PDF as {@link Path}.
+	 * 
+	 * @param pBytes the PDF document as byte array
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} for the given PDF document
+	 */
+	@CheckReturnValue
+	static PdfAssert assertThat(final Path path, final String password) {
+		return assertThat(path.toFile(), password);
 	}
 	
 	/**
