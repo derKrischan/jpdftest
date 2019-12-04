@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.derkrischan</groupId>
 	<artifactId>jpdftest</artifactId>
@@ -6,6 +8,7 @@
 	<description>Library to test PDF files programmatically.</description>
 	<url>https://github.com/derKrischan/jpdftest</url>
 	<name>jPdfTest</name>
+	<inceptionYear>2019</inceptionYear>
 
 	<licenses>
 		<license>
@@ -48,8 +51,16 @@
 		<system>GitHub Issues</system>
 	</issueManagement>
 
+	<ciManagement>
+		<system>CircleCI</system>
+		<url>https://circleci.com/gh/derKrischan/jpdftest</url>
+	</ciManagement>
+
 	<properties>
 		<java.version>1.7</java.version>
+		<!-- this timestamp is Used to create reproducable builds and will be controlled 
+			by maven-release-plugin in the future -->
+		<project.build.outputTimestamp>2019-11-30T08:04:00Z</project.build.outputTimestamp>
 		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
 		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -59,6 +70,7 @@
 		<!-- maven plugin versions -->
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
 		<gitflow-maven-plugin.version>1.13.0</gitflow-maven-plugin.version>
+		<github-release-plugin.version>1.4.0</github-release-plugin.version>
 		<license-maven-plugin.version>2.0.0</license-maven-plugin.version>
 		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -73,6 +85,7 @@
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+		<maven-scm-provider-gitexe.version>1.11.2</maven-scm-provider-gitexe.version>
 		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
 		<maven-source-plugin.version>3.2.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
@@ -202,6 +215,35 @@
 						<releaseVersion>${currentVersion.majorVersion}.${currentVersion.minorVersion}.${currentVersion.incrementalVersion}</releaseVersion>
 						<developmentVersion>${currentVersion.majorVersion}.${currentVersion.nextMinorVersion}.0-SNAPSHOT</developmentVersion>
 					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.scm</groupId>
+							<artifactId>maven-scm-provider-gitexe</artifactId>
+							<version>${maven-scm-provider-gitexe.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>de.jutzig</groupId>
+					<artifactId>github-release-plugin</artifactId>
+					<version>${github-release-plugin.version}</version>
+					<inherited>false</inherited>
+					<executions>
+						<execution>
+							<id>github-upload</id>
+							<phase>deploy</phase>
+							<goals>
+								<goal>release</goal>
+							</goals>
+							<inherited>false</inherited>
+							<configuration>
+								<description>Automated feature release preformed by maven plugin</description>
+								<failOnExistingRelease>true</failOnExistingRelease>
+								<releaseName>v${project.version}</releaseName>
+								<artifact>${project.build.directory}/${project.artifactId}-${project.version}.jar</artifact>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -323,8 +365,10 @@
 							</goals>
 							<configuration>
 								<transformers>
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-									<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 										<manifestEntries>
 											<Main-Class>${application.class}</Main-Class>
 											<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
