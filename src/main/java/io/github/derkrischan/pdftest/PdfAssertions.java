@@ -49,6 +49,18 @@ public final class PdfAssertions {
 	}
 
 	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from {@link File}.
+	 * 
+	 * @param file the {@link File} for the PDF document to test
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} if pFile is a valid PDF
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final File file, final String password) {
+		return PdfAssert.assertThat(file, password);
+	}
+
+	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from file name as string.
 	 * 
 	 * @param fileName the string representation for the PDF document to test
@@ -57,6 +69,18 @@ public final class PdfAssertions {
 	@CheckReturnValue
 	public static PdfAssert assertThat(final String fileName) {
 		return PdfAssert.assertThat(fileName);
+	}
+
+	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from file name as string.
+	 * 
+	 * @param fileName the string representation for the PDF document to test
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} if pFileName represents a valid PDF
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final String fileName, final String password) {
+		return PdfAssert.assertThat(fileName, password);
 	}
 
 	/**
@@ -71,6 +95,18 @@ public final class PdfAssertions {
 	}
 
 	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from {@link InputStream}.
+	 * 
+	 * @param inputStream the {@link InputStream} for the PDF document to test
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} from PDF stream
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final InputStream inputStream, final String password) {
+		return PdfAssert.assertThat(inputStream, password);
+	}
+
+	/**
 	 * Creates a {@link PdfAssert} for the given PDF document from array of bytes.
 	 * 
 	 * @param bytes the PDF document to test as byte array
@@ -79,6 +115,18 @@ public final class PdfAssertions {
 	@CheckReturnValue
 	public static PdfAssert assertThat(final byte[] bytes) {
 		return PdfAssert.assertThat(bytes);
+	}
+
+	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from array of bytes.
+	 * 
+	 * @param bytes the PDF document to test as byte array
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} from PDF byte array
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final byte[] bytes, final String password) {
+		return PdfAssert.assertThat(bytes, password);
 	}
 	
 	/**
@@ -90,6 +138,18 @@ public final class PdfAssertions {
 	@CheckReturnValue
 	public static PdfAssert assertThat(final Path path) {
 		return PdfAssert.assertThat(path);
+	}
+
+	/**
+	 * Creates a {@link PdfAssert} for the given PDF document from {@link Path}.
+	 * 
+	 * @param path the PDF document to test as {@link Path}
+	 * @param password user password to open the document
+	 * @return a new instance of {@link PdfAssert} from PDF byte array
+	 */
+	@CheckReturnValue
+	public static PdfAssert assertThat(final Path path, final String password) {
+		return PdfAssert.assertThat(path, password);
 	}
 
 	/**
