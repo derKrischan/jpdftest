@@ -1,5 +1,7 @@
 # JPdfTest
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.derkrischan/jpdftest/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.derkrischan/jpdftest)
+
 This is a small library that will eventually be extended to test PDF contents programmatically. The focus is not on a per pixel comparison of images but to deliver some asserters to assure that some specific text/image is located in a certain area. 
 
 ## Table of contents
@@ -8,10 +10,11 @@ This is a small library that will eventually be extended to test PDF contents pr
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Design principles](#design-principles)
-- [Features](#features)
-- [To-Do](#to-do)
-- [Tech](#tech)
+- [JPdfTest](#JPdfTest)
+	- [Table of contents](#Table-of-contents)
+	- [Design principles](#Design-principles)
+	- [Features](#Features)
+	- [Tech](#Tech)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -51,4 +54,3 @@ Asserters may be used to traverse from documents to single pages and back to the
 * The project uses [PdfBox](https://pdfbox.apache.org/) which tries to create a font cache in system temp directory. In case the user has no write access for that directory, an error occurs. In order to specify the font cache directory use the property "pdfbox.fontcache" via command line. E.g. :
 
 	java -Dpdfbox.fontcache=path/to/cache ...
-
