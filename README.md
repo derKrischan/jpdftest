@@ -1,6 +1,7 @@
 # JPdfTest
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.derkrischan/jpdftest/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.derkrischan/jpdftest)
+[![CircleCI](https://circleci.com/gh/derKrischan/jpdftest/tree/master.svg?style=svg)](https://circleci.com/gh/derKrischan/jpdftest/tree/master)
 
 This is a small library that will eventually be extended to test PDF contents programmatically. The focus is not on a per pixel comparison of images but to deliver some asserters to assure that some specific text/image is located in a certain area. 
 
