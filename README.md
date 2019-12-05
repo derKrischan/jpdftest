@@ -49,6 +49,9 @@ Asserters may be used to traverse from documents to single pages and back to the
 * Check the producer of a PDF document
 * Check the creation date of a PDF document
 * Check the document version
+* Assert page/document orientation
+* Assert page/document size
+* Load encrypted PDFs
 
 ## Tech
 
