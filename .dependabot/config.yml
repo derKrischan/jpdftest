@@ -2,6 +2,7 @@ version: 1
 update_configs:
   - package_manager: "java:maven"
     directory: "/"
+    target_branch: "develop"
     update_schedule: "weekly"
     default_reviewers:
       - "derKrischan"
