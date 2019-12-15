@@ -91,7 +91,7 @@ jobs:
             echo "Finishing feature in branch ${FEATURE_BRANCH_NAME}"
             if [[ ! "${FEATURE_BRANCH_NAME}" =~ ^feature/[a-zA-Z0-9_#\-]*$ || -z "${FEATURE_BRANCH_NAME}" ]]; then
               echo "No merge after feature branch pull request. Stopping build.";
-              exit 1;
+              exit 0;
             fi
             export FEATURE_NAME=`echo ${FEATURE_BRANCH_NAME} | sed 's/^feature\///'`
             echo "Merging feature ${FEATURE_NAME}"
