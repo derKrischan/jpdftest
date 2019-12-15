@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.derkrischan</groupId>
 	<artifactId>jpdftest</artifactId>
-	<version>0.7.0-123-test_feature-1-my_test_feature-SNAPSHOT</version>
+	<version>0.7.0-1-my_test_feature-SNAPSHOT</version>
 	<description>Library to test PDF files programmatically.</description>
 	<url>https://github.com/derKrischan/jpdftest</url>
 	<name>jPdfTest</name>
