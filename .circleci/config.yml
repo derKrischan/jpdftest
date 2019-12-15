@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: maven:3.6.1-jdk-7-slim
+      - image: maven:3.6-jdk-7-slim
 
     working_directory: ~/repo
 
@@ -54,9 +54,10 @@ jobs:
 
 workflows:
   version: 2
-  build_and_analyze:
+  build_and_analyze_feature:
     jobs:
       - build
       - analyze:
           requires:
             - build
+    
