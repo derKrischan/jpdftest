@@ -95,6 +95,8 @@ jobs:
             fi
             export FEATURE_NAME=`echo ${FEATURE_BRANCH_NAME} | sed -r 's/^(.+\/)feature\///'`
             echo "Merging feature ${FEATURE_NAME}"
+            git config --global user.email "ci@christian-wiech.de"
+            git config --global user.name "Circle CI"
             mvn -U -B gitflow:feature-finish -DversionProcessAllModules=true -DinstallProject=false -DskipTestProject=true -DskipFeatureVersion=false -DallowSnapshots=true -DpushRemote=true -DfeatureName="${FEATURE_NAME}"
   
 workflows:
