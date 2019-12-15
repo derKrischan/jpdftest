@@ -89,11 +89,11 @@ jobs:
           command: |
             export FEATURE_BRANCH_NAME=`git log --first-parent --merges -1 --oneline develop | sed 's/[0-9a-f]* Merge pull request #[0-9]* from \(.*\)/\1/'`
             echo "Finishing feature in branch ${FEATURE_BRANCH_NAME}"
-            if [[ ! "${FEATURE_BRANCH_NAME}" =~ ^feature/[a-zA-Z0-9_#\-]*$ || -z "${FEATURE_BRANCH_NAME}" ]]; then
+            if [[ ! "${FEATURE_BRANCH_NAME}" =~ ^(.+/)?feature/[a-zA-Z0-9_#\-]*$ || -z "${FEATURE_BRANCH_NAME}" ]]; then
               echo "No merge after feature branch pull request. Stopping build.";
               exit 0;
             fi
-            export FEATURE_NAME=`echo ${FEATURE_BRANCH_NAME} | sed 's/^feature\///'`
+            export FEATURE_NAME=`echo ${FEATURE_BRANCH_NAME} | sed -r 's/^(.+\/)feature\///'`
             echo "Merging feature ${FEATURE_NAME}"
             mvn -U -B gitflow:feature-finish -DversionProcessAllModules=true -DinstallProject=false -DskipTestProject=true -DskipFeatureVersion=false -DallowSnapshots=true -DpushRemote=true -DfeatureName="${FEATURE_NAME}"
   
