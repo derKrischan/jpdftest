@@ -100,7 +100,7 @@
 		<commons-lang3.version>3.8.1</commons-lang3.version>
 		<javax.activation-api.version>1.2.0</javax.activation-api.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13</junit.version>
 		<pdfbox.version>2.0.18</pdfbox.version>
 	</properties>
 
