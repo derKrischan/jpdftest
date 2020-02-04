@@ -15,6 +15,7 @@ import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
 import org.apache.pdfbox.preflight.parser.PreflightParser;
 import org.apache.pdfbox.preflight.utils.ByteArrayDataSource;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -27,6 +28,9 @@ import org.assertj.core.util.CheckReturnValue;
  */
 public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource> {
 
+	/** error message string used in failures */
+	private static final String PARSE_FILE_ERROR_MESSAGE = " cannot be parsed for check of PDF/A-1b validity: ";
+	
 	/**
 	 * Package private constructor to prevent public instantiation.
 	 * The asserter should be created from {@link PdfAssertions}.  
@@ -56,7 +60,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @throws IllegalArgumentException in case the given input stream is not a valid PDF document
 	 */
 	@CheckReturnValue
-	static PdfFormatAssert assertThat(final InputStream pdfStream) throws IllegalArgumentException {
+	static PdfFormatAssert assertThat(final InputStream pdfStream) {
 		try {
 			return new PdfFormatAssert(new ByteArrayDataSource(pdfStream));
 		} catch (IOException ioException) {
@@ -73,7 +77,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @throws IllegalArgumentException in case the given byte array is not a valid PDF document
 	 */
 	@CheckReturnValue
-	static PdfFormatAssert assertThat(final byte[] pdf) throws IllegalArgumentException {
+	static PdfFormatAssert assertThat(final byte[] pdf) {
 		try {
 			return new PdfFormatAssert(new ByteArrayDataSource(new ByteArrayInputStream(pdf)));
 		} catch (IOException ioException) {
@@ -89,7 +93,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @return a new instance of {@link PdfFormatAssert}
 	 */
 	@CheckReturnValue
-	static PdfFormatAssert assertThat(final File pdf) throws IllegalArgumentException {
+	static PdfFormatAssert assertThat(final File pdf) {
 			return new PdfFormatAssert(new FileDataSource(pdf));
 	}
 	
@@ -100,7 +104,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @return a new instance of {@link PdfFormatAssert}
 	 */
 	@CheckReturnValue
-	static PdfFormatAssert assertThat(final Path pdfPath) throws IllegalArgumentException {
+	static PdfFormatAssert assertThat(final Path pdfPath) {
 		return new PdfFormatAssert(new FileDataSource(pdfPath.toFile()));
 	}
 	
@@ -121,7 +125,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 		    	failWithMessage(errorMessage);
 		    }
 		} catch (IOException e) {
-			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+			failWithMessage(actual + PARSE_FILE_ERROR_MESSAGE + e.getMessage());
 		}
 		return this;
 	}
@@ -139,27 +143,26 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 		    // Get validation result
 			ValidationResult result = document.getResult();
 		    if (!result.isValid()) {
-		    	String errorMessage = actual + " is not a valid document conforming PDF/A-1b specification.";
+		    	StringBuffer errorMessage = new StringBuffer(actual.toString()).append(" is not a valid document conforming PDF/A-1b specification.");
 		    	for (ValidationError validationError : result.getErrorsList()) {
-		    		errorMessage += "\n" + validationError.getDetails();
+		    		errorMessage.append("\n").append(validationError.getDetails());
 		    	}
-		    	failWithMessage(errorMessage);
+		    	failWithMessage(errorMessage.toString());
 		    }
 		} catch (IOException e) {
-			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+			failWithMessage(actual + PARSE_FILE_ERROR_MESSAGE + e.getMessage());
 		}
 		return this;
 	}
 	
 	private PreflightParser createPreflightParser() {
-		PreflightParser preflightParser = null;
 		try {
-			preflightParser = new PreflightParser(actual);
+			PreflightParser preflightParser = new PreflightParser(actual);
 			preflightParser.parse();
+			return preflightParser;
 		} catch (IOException e) {
-			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+			throw Failures.instance().failure(actual + PARSE_FILE_ERROR_MESSAGE + e.getMessage()); 
 		}
-		return preflightParser;
 	}
 
 }
