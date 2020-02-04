@@ -537,7 +537,10 @@
 							</execution>
 						</executions>
 					</plugin>
-
+					<plugin>
+						<groupId>de.jutzig</groupId>
+						<artifactId>github-release-plugin</artifactId>
+					</plugin>
 					<!-- Deploy via nexus-staging-maven-plugin -->
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
