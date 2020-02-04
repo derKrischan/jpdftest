@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.derkrischan</groupId>
 	<artifactId>jpdftest</artifactId>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>0.8.1-SNAPSHOT</version>
 	<description>Library to test PDF files programmatically.</description>
 	<url>https://github.com/derKrischan/jpdftest</url>
 	<name>jPdfTest</name>
@@ -537,7 +537,10 @@
 							</execution>
 						</executions>
 					</plugin>
-
+					<plugin>
+						<groupId>de.jutzig</groupId>
+						<artifactId>github-release-plugin</artifactId>
+					</plugin>
 					<!-- Deploy via nexus-staging-maven-plugin -->
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
