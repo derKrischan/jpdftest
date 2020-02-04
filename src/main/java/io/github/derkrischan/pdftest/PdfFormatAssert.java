@@ -143,7 +143,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 		    // Get validation result
 			ValidationResult result = document.getResult();
 		    if (!result.isValid()) {
-		    	StringBuffer errorMessage = new StringBuffer(actual.toString()).append(" is not a valid document conforming PDF/A-1b specification.");
+		    	StringBuilder errorMessage = new StringBuilder(actual.toString()).append(" is not a valid document conforming PDF/A-1b specification.");
 		    	for (ValidationError validationError : result.getErrorsList()) {
 		    		errorMessage.append("\n").append(validationError.getDetails());
 		    	}
