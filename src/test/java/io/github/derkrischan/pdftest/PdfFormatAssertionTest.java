@@ -46,4 +46,18 @@ public class PdfFormatAssertionTest {
 	public void givenPdfA1bDocumentAsByteArray_shouldPass() throws IOException {
 		PdfAssertions.assertFormatPdf1A(Files.readAllBytes(Paths.get("src/test/resources/pdf/PdfA-1b.pdf"))).validatePdfA1bCompliance();
 	}
+	
+	@Test(expected=AssertionError.class)
+	public void givenNotExistingFilename_shouldReturnAssertionError() {
+		PdfAssertions.assertFormatPdf1A("src/test/resources/pdf/non_existing_pdf.pdf").validatePdfA1bCompliance();
+	}
+	
+	@Test(expected=AssertionError.class)
+	public void givenPdfA1bDocument_checkForNotA1bCompliance_shouldReturnAssertionError() {
+		PdfAssertions.assertFormatPdf1A(ClassLoader.getSystemResourceAsStream("pdf/PdfA-1b.pdf")).validateNoPdfA1bCompliance();
+	}
+
+	public void givenNonPdfA1bDocument_checkForNotA1bCompliance_shouldPass() {
+		PdfAssertions.assertFormatPdf1A("src/test/resources/pdf/dummy.pdf").validateNoPdfA1bCompliance();
+	}
 }

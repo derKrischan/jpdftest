@@ -105,20 +105,34 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	}
 	
 	/**
-	 * Checks that the PDF document that corresponds to given file path
-	 * when this asserter was created, is PDF/A-1b compliant.
+	 * Checks that the PDF document is NOT PDF/A-1b compliant.
+	 * 
+	 * @return this asserters instance
+	 */
+	public PdfFormatAssert validateNoPdfA1bCompliance() {
+		PreflightParser preflightParser = createPreflightParser();
+		try (PreflightDocument document = preflightParser.getPreflightDocument()) { 
+			document.validate();
+
+		    // Get validation result
+			ValidationResult result = document.getResult();
+		    if (result.isValid()) {
+		    	String errorMessage = actual + " is a valid document conforming PDF/A-1b specification.";
+		    	failWithMessage(errorMessage);
+		    }
+		} catch (IOException e) {
+			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+		}
+		return this;
+	}
+	
+	/**
+	 * Checks that the PDF document is PDF/A-1b compliant.
 	 * 
 	 * @return this asserters instance
 	 */
 	public PdfFormatAssert validatePdfA1bCompliance() {
-		PreflightParser preflightParser = null;
-		try {
-			preflightParser = new PreflightParser(actual);
-			preflightParser.parse();
-		} catch (IOException e) {
-			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
-			return this;
-		}
+		PreflightParser preflightParser = createPreflightParser();
 		try (PreflightDocument document = preflightParser.getPreflightDocument()) { 
 			document.validate();
 
@@ -135,6 +149,17 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
 		}
 		return this;
+	}
+	
+	private PreflightParser createPreflightParser() {
+		PreflightParser preflightParser = null;
+		try {
+			preflightParser = new PreflightParser(actual);
+			preflightParser.parse();
+		} catch (IOException e) {
+			failWithMessage(actual + " cannot be parsed for check of PDF/A-1b validity: " + e.getMessage());
+		}
+		return preflightParser;
 	}
 
 }
