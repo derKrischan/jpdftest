@@ -52,61 +52,10 @@ jobs:
       # static code analysis
       - run: mvn sonar:sonar -Dsonar.projectKey=derKrischan_jpdftest -Dsonar.organization=derkrischan-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
   
-  finish-feature:
-    docker:
-      # specify the version you desire here
-      - image: maven:3.6-jdk-7
-
-    working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
-    steps:
-      - checkout
-      - run: 
-          command: |
-            git branch -r | grep -v '\->' | grep -v 'develop' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-            git pull --all
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-
-      # run build and unit tests
-      - run: 
-          command: |
-            export FEATURE_BRANCH_NAME=`git log --first-parent --merges -1 --oneline develop | sed 's/[0-9a-f]* Merge pull request #[0-9]* from \(.*\)/\1/'`
-            echo "Finishing feature in branch ${FEATURE_BRANCH_NAME}"
-            if [[ ! "${FEATURE_BRANCH_NAME}" =~ ^(.+/)?feature/[a-zA-Z0-9_#\-]*$ || -z "${FEATURE_BRANCH_NAME}" ]]; then
-              echo "No merge after feature branch pull request. Stopping build.";
-              exit 0;
-            fi
-            export FEATURE_NAME=`echo ${FEATURE_BRANCH_NAME} | sed -r 's/^(.+\/)feature\///'`
-            echo "Merging feature ${FEATURE_NAME}"
-            git config --global user.email "ci@christian-wiech.de"
-            git config --global user.name "Circle CI"
-            mvn -U -B gitflow:feature-finish -DversionProcessAllModules=true -DinstallProject=false -DskipTestProject=true -DskipFeatureVersion=false -DallowSnapshots=true -DpushRemote=true -DfeatureName="${FEATURE_NAME}"
-  
 workflows:
   version: 2
   build_and_analyze_feature:
     jobs:
-      - finish-feature:
-          filters:
-            branches:
-              only: develop
       - build
       - analyze:
           requires:
