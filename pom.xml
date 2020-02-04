@@ -69,7 +69,6 @@
 
 		<!-- maven plugin versions -->
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
-		<gitflow-maven-plugin.version>1.14.0</gitflow-maven-plugin.version>
 		<github-release-plugin.version>1.4.0</github-release-plugin.version>
 		<license-maven-plugin.version>2.0.0</license-maven-plugin.version>
 		<maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
@@ -153,42 +152,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>com.amashchenko.maven.plugin</groupId>
-					<artifactId>gitflow-maven-plugin</artifactId>
-					<version>${gitflow-maven-plugin.version}</version>
-					<configuration>
-						<installProject>false</installProject>
-						<verbose>false</verbose>
-						<featureSquash>true</featureSquash>
-						<keepBranch>false</keepBranch>
-						<gitFlowConfig>
-							<productionBranch>master</productionBranch>
-							<developmentBranch>develop</developmentBranch>
-							<featureBranchPrefix>feature/</featureBranchPrefix>
-							<releaseBranchPrefix>release/</releaseBranchPrefix>
-							<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-							<supportBranchPrefix>support/</supportBranchPrefix>
-							<versionTagPrefix>v</versionTagPrefix>
-							<origin>origin</origin>
-						</gitFlowConfig>
-						<commitMessages>
-							<featureStartMessage>update ${project.artifactId} versions for
-								new feature branch @{featureName}:@{version}</featureStartMessage>
-							<featureFinishMessage>update versions for development branch
-								@{featureName}:@{version}</featureFinishMessage>
-							<hotfixStartMessage>update versions for new hotfix @{version}</hotfixStartMessage>
-							<hotfixFinishMessage>update for next version @{version}</hotfixFinishMessage>
-							<releaseStartMessage>update versions for new release @{version}</releaseStartMessage>
-							<releaseFinishMessage>update for next version @{version}</releaseFinishMessage>
-							<tagHotfixMessage>tag hotfix @{version}</tagHotfixMessage>
-							<tagReleaseMessage>tag release @{version}</tagReleaseMessage>
-						</commitMessages>
-						<featureNamePattern>[A-Za-z0-9][A-Za-z0-9_\s\-]*</featureNamePattern>
-						<pushRemote>true</pushRemote>
-						<keepBranch>true</keepBranch>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
