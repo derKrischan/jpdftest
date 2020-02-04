@@ -156,11 +156,52 @@ public final class PdfAssertions {
 	 * Creates a {@link PdfFormatAssert} for the given PDF document from file name as string.
 	 * 
 	 * @param fileName the string representation for the PDF document to validate
-	 * @return a new instance of {@link PdfAssert} if pFileName represents a valid PDF path
+	 * @return a new instance of {@link PdfAssert} if fileName represents a valid PDF path
 	 */
 	@CheckReturnValue
 	public static PdfFormatAssert assertFormatPdf1A(final String fileName) {
 		return PdfFormatAssert.assertThat(fileName);
+	}
+	
+	/**
+	 * Creates a {@link PdfFormatAssert} for the given PDF document from byte array.
+	 * 
+	 * @param pdf the PDF document to validate as byte array
+	 * @return a new instance of {@link PdfAssert} if pdf is a valid PDF
+	 */
+	@CheckReturnValue
+	public static PdfFormatAssert assertFormatPdf1A(final byte[] pdf) {
+		return PdfFormatAssert.assertThat(pdf);
+	}
+	/**
+	 * Creates a {@link PdfFormatAssert} for the given PDF document from InputStream.
+	 * 
+	 * @param pdfStream the PDF document to validate as InputStream
+	 * @return a new instance of {@link PdfAssert} if pdfStream is a valid PDF
+	 */
+	@CheckReturnValue
+	public static PdfFormatAssert assertFormatPdf1A(final InputStream pdfStream) {
+		return PdfFormatAssert.assertThat(pdfStream);
+	}
+	/**
+	 * Creates a {@link PdfFormatAssert} for the given PDF document file.
+	 * 
+	 * @param pdf the PDF document file to validate
+	 * @return a new instance of {@link PdfAssert} if pdf is a valid PDF file
+	 */
+	@CheckReturnValue
+	public static PdfFormatAssert assertFormatPdf1A(final File pdf) {
+		return PdfFormatAssert.assertThat(pdf);
+	}
+	/**
+	 * Creates a {@link PdfFormatAssert} for the given PDF document path.
+	 * 
+	 * @param pdfPath path to the PDF document to validate
+	 * @return a new instance of {@link PdfAssert} if pdfPath represents a valid PDF path
+	 */
+	@CheckReturnValue
+	public static PdfFormatAssert assertFormatPdf1A(final Path pdfPath) {
+		return PdfFormatAssert.assertThat(pdfPath);
 	}
 	
 	
