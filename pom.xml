@@ -80,7 +80,7 @@
 		<maven-jacoco-plugin.version>0.8.6</maven-jacoco-plugin.version>
 		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+		<maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
 		<maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
 		<maven-scm-api.version>1.11.2</maven-scm-api.version>
 		<maven-scm-provider-gitexe.version>1.11.2</maven-scm-provider-gitexe.version>
