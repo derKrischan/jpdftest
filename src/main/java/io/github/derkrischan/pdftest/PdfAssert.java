@@ -431,31 +431,11 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 
 		List<Class<? extends PDAction>> actionTypes = convertActionTypesToPDActionClassList(actions);
 
-		PDDocumentCatalogAdditionalActions addActions = actual.getDocumentCatalog().getActions();
-		if (addActions != null) {
-			checkActionChainContains(addActions.getDP(), actionTypes, true);
-			checkActionChainContains(addActions.getDS(), actionTypes, true);
-			checkActionChainContains(addActions.getWC(), actionTypes, true);
-			checkActionChainContains(addActions.getWP(), actionTypes, true);
-			checkActionChainContains(addActions.getWS(), actionTypes, true);
-		}
+		checkDocumentCatalogForActionTypes(actionTypes, true);
 
-		try {
-			if (actual.getDocumentCatalog().getOpenAction() != null
-			    && actual.getDocumentCatalog().getOpenAction() instanceof PDAction) {
-				checkActionChainContains((PDAction) actual.getDocumentCatalog().getOpenAction(), actionTypes, true);
+		checkDocumentOpenActionForActionTypes(actionTypes, true);
 
-			}
-		} catch (IOException ioException) {
-			System.err.println("IOException catched while examining documents open action.");
-		}
-
-		for (PDPage page : actual.getDocumentCatalog().getPages()) {
-			if (page.getActions() != null) {
-				checkActionChainContains(page.getActions().getO(), actionTypes, true);
-				checkActionChainContains(page.getActions().getC(), actionTypes, true);
-			}
-		}
+		checkPageActionsForActionTypes(actionTypes, true);
 
 		PDAcroForm acroForm = actual.getDocumentCatalog().getAcroForm();
 		if (acroForm == null) {
@@ -478,61 +458,71 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	public final PdfAssert containsActionsOfType(ActionType... actions) {
 		List<Class<? extends PDAction>> actionTypes = convertActionTypesToPDActionClassList(actions);
 
-		PDDocumentCatalogAdditionalActions addActions = actual.getDocumentCatalog().getActions();
-		if (addActions != null) {
-			if (checkActionChainContains(addActions.getDP(), actionTypes, true)) {
-				return this;
-			}
-			if (checkActionChainContains(addActions.getDS(), actionTypes, true)) {
-				return this;
-			}
-			if (checkActionChainContains(addActions.getWC(), actionTypes, true)) {
-				return this;
-			}
-			if (checkActionChainContains(addActions.getWP(), actionTypes, true)) {
-				return this;
-			}
-			if (checkActionChainContains(addActions.getWS(), actionTypes, true)) {
-				return this;
-			}
+		if (checkDocumentCatalogForActionTypes(actionTypes, false)) {
+			return this;
 		}
 
-		try {
-			if (actual.getDocumentCatalog().getOpenAction() != null
-			    && actual.getDocumentCatalog().getOpenAction() instanceof PDAction) {
-				if (checkActionChainContains((PDAction) actual.getDocumentCatalog().getOpenAction(), actionTypes, false)) {
-					return this;
-				}
-
-			}
-		} catch (IOException ioException) {
-			System.err.println("IOException catched while examining documents open action.");
+		if (checkDocumentOpenActionForActionTypes(actionTypes, false)) {
+			return this;
 		}
 
-		for (PDPage page : actual.getDocumentCatalog().getPages()) {
-			if (page.getActions() != null) {
-				if (checkActionChainContains(page.getActions().getO(), actionTypes, false)) {
-					return this;
-				}
-				if (checkActionChainContains(page.getActions().getC(), actionTypes, false)) {
-					return this;
-				}
-			}
+		if (checkPageActionsForActionTypes(actionTypes, false)) {
+			return this;
 		}
 
-		boolean actionFound = false;
+		boolean found = false;
 		PDAcroForm acroForm = actual.getDocumentCatalog().getAcroForm();
 		if (acroForm == null) {
-			failWithMessage("No actions found in document.");
+			failWithMessage("Given actions not found in document.");
 		}
 
 		for (PDField field : acroForm.getFields()) {
-			checkFieldHasAction(field, actionTypes, false);
+			found |= checkFieldHasAction(field, actionTypes, false);
 		}
-		if (!actionFound) {
+		if (!found) {
 			failWithMessage("Given actions not found in document.");
 		}
 		return this;
+	}
+
+	private boolean checkPageActionsForActionTypes(final List<Class<? extends PDAction>> actionTypes,
+	    final boolean failIfFound) {
+		boolean found = false;
+		for (PDPage page : actual.getDocumentCatalog().getPages()) {
+			if (page.getActions() != null) {
+				found |= checkActionChainContains(page.getActions().getO(), actionTypes, failIfFound);
+				found |= checkActionChainContains(page.getActions().getC(), actionTypes, failIfFound);
+			}
+		}
+		return found;
+	}
+
+	private boolean checkDocumentOpenActionForActionTypes(final List<Class<? extends PDAction>> actionTypes,
+	    final boolean failIfFound) {
+		boolean found = false;
+		try {
+			if (actual.getDocumentCatalog().getOpenAction() instanceof PDAction) {
+				found |= checkActionChainContains((PDAction) actual.getDocumentCatalog().getOpenAction(), actionTypes,
+				    failIfFound);
+			}
+		} catch (IOException ioException) {
+			// nothing to worry about and should never happen
+		}
+		return found;
+	}
+
+	private boolean checkDocumentCatalogForActionTypes(final List<Class<? extends PDAction>> actionTypes,
+	    final boolean failIfFound) {
+		boolean found = false;
+		PDDocumentCatalogAdditionalActions addActions = actual.getDocumentCatalog().getActions();
+		if (addActions != null) {
+			found |= checkActionChainContains(addActions.getDP(), actionTypes, failIfFound);
+			found |= checkActionChainContains(addActions.getDS(), actionTypes, failIfFound);
+			found |= checkActionChainContains(addActions.getWC(), actionTypes, failIfFound);
+			found |= checkActionChainContains(addActions.getWP(), actionTypes, failIfFound);
+			found |= checkActionChainContains(addActions.getWS(), actionTypes, failIfFound);
+		}
+		return found;
 	}
 
 	private boolean checkFieldHasAction(final PDField field, final List<Class<? extends PDAction>> actions,
