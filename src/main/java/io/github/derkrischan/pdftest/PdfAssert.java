@@ -474,10 +474,10 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		PDAcroForm acroForm = actual.getDocumentCatalog().getAcroForm();
 		if (acroForm == null) {
 			failWithMessage("Given actions not found in document.");
-		}
-
-		for (PDField field : acroForm.getFields()) {
-			found |= checkFieldHasAction(field, actionTypes, false);
+		} else {
+			for (PDField field : acroForm.getFields()) {
+				found |= checkFieldHasAction(field, actionTypes, false);
+			}
 		}
 		if (!found) {
 			failWithMessage("Given actions not found in document.");
