@@ -1,8 +1,6 @@
 package io.github.derkrischan.pdftest;
 
 
-import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.assertj.core.api.AbstractCharSequenceAssert;
@@ -63,29 +61,4 @@ public class StringAssert extends AbstractCharSequenceAssert<StringAssert, Strin
 	public PDDocument getPdfUnderTest() {
 		return pdfUnderTest;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(pdfUnderTest);
-		return result;
-	}
-
-	@Deprecated()
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof StringAssert)) {
-			return false;
-		}
-		StringAssert other = (StringAssert) obj;
-		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
-	}
-
 }
