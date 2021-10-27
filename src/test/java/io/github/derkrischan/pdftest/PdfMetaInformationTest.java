@@ -45,7 +45,7 @@ public class PdfMetaInformationTest {
 	@Test
 	public void testVerifyCreationDate() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf"))
-		    .creationDate().isBeforeOrEqualsTo("2007-02-24")
+		    .creationDate().isBeforeOrEqualTo("2007-02-24")
 		    .isAfter("2007-02-22");
 	}
 
