@@ -95,7 +95,7 @@
 		<!-- Dependency versions -->
 		<annotations.findbugs.version>3.0.1u2</annotations.findbugs.version>
 		<assertj.version>2.9.1</assertj.version>
-		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<commons-lang3.version>3.12.0</commons-lang3.version>
 		<javax.activation-api.version>1.2.0</javax.activation-api.version>
 		<jaxb-api.version>2.3.1</jaxb-api.version>
 		<junit.version>4.13.2</junit.version>
