@@ -27,7 +27,7 @@ public abstract class AbstractPdfAssert<S extends AbstractAssert<S, A>, A> exten
 	 * @param selfType the own asserter type
 	 * @param pPdfUnderTest the PDF document under test
 	 */
-	public AbstractPdfAssert(A actual, Class<?> selfType, final PDDocument pPdfUnderTest) {
+	protected AbstractPdfAssert(A actual, Class<?> selfType, final PDDocument pPdfUnderTest) {
 		super(actual, selfType);
 		pdfUnderTest = pPdfUnderTest;
 	}
