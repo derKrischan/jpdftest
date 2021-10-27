@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: maven:3.6-jdk-7
+      - image: maven:3.8-jdk-8
 
     working_directory: ~/repo
 
@@ -37,7 +37,7 @@ jobs:
 
   analyze:
     docker:
-      - image: circleci/openjdk:11.0.5-jdk-stretch
+      - image: cimg/openjdk:11.0.12
     working_directory: ~/repo
 
     environment:
