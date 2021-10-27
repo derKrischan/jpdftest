@@ -34,11 +34,6 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> implements Flu
 	}
 
 	@Override
-	public PdfAssert document() {
-		return new PdfAssert(getPdfUnderTest());
-	}
-
-	@Override
 	public PdfPageAssert page(int pPageNumber) {
 		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
 	}

@@ -18,7 +18,9 @@ public interface FluentPdfAsserter {
 	 * Returns an {@link PdfAssert} for tests on the whole document.
 	 * @return a {@link PdfAssert} for the PDF document under test.
 	 */
-	PdfAssert document();
+	default PdfAssert document() {
+	  return new PdfAssert(getPdfUnderTest());
+	}
 	
 	/**
 	 * Returns a {@link PdfPageAssert} for tests on a specific page in the document.

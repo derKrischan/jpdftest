@@ -50,11 +50,6 @@ public class StringAssert extends AbstractCharSequenceAssert<StringAssert, Strin
 	}
 	
 	@Override
-	public PdfAssert document() {
-		return new PdfAssert(getPdfUnderTest());
-	}
-
-	@Override
 	public PdfPageAssert page(int pPageNumber) {
 		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
 	}

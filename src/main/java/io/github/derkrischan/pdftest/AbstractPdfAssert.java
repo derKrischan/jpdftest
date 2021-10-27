@@ -33,11 +33,6 @@ public abstract class AbstractPdfAssert<S extends AbstractAssert<S, A>, A> exten
 	}
 	
 	@Override
-	public PdfAssert document() {
-		return new PdfAssert(getPdfUnderTest());
-	}
-
-	@Override
 	public PdfPageAssert page(int pPageNumber) {
 		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
 	}

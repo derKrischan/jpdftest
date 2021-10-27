@@ -31,11 +31,6 @@ public class DateAssert extends AbstractDateAssert<DateAssert> implements Fluent
 	}
 
 	@Override
-	public PdfAssert document() {
-		return new PdfAssert(getPdfUnderTest());
-	}
-
-	@Override
 	public PdfPageAssert page(int pPageNumber) {
 		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
 	}
