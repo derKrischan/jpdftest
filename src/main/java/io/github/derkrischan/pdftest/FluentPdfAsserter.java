@@ -1,5 +1,9 @@
 package io.github.derkrischan.pdftest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
@@ -23,6 +27,8 @@ public interface FluentPdfAsserter {
 	 * @return a {@link PdfPageAssert} for the given page
 	 */
 	PdfPageAssert page(final int pPageNumber);
+	
+	void eachPage(Consumer<? super PdfPageAssert> action);
 	
 	/**
 	 * Getter for the PDF document under test. The document has to be
@@ -64,5 +70,13 @@ public interface FluentPdfAsserter {
 			}
 			return new PdfPageAssert(pDocument.getPage(pPageNumber - 1), pDocument);
 		}
+		
+		public static List<PdfPageAssert> getPageAssertersForDocument(final PDDocument pDocument) {
+		  List<PdfPageAssert> pages = new ArrayList<>();
+	      for (int page = 1; page <= pDocument.getNumberOfPages(); page++) {
+	        pages.add(getPageAsserterForDocument(pDocument, page));
+	      }
+	      return pages;
+      }
 	}
 }

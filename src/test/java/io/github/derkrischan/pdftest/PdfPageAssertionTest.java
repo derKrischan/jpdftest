@@ -43,4 +43,9 @@ public class PdfPageAssertionTest {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPageOrientation(Orientation.LANDSCAPE);
 	}
 	
+	@Test
+    public void givenLandscapeOrientedPdf_shouldMatchLandscapeExpectationForEveryPage() {
+        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.hasPageOrientation(Orientation.PORTRAIT));
+    }
+	
 }
