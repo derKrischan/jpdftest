@@ -1,7 +1,6 @@
 package io.github.derkrischan.pdftest;
 
 import java.util.Date;
-import java.util.function.Consumer;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.assertj.core.api.AbstractDateAssert;
@@ -29,16 +28,6 @@ public class DateAssert extends AbstractDateAssert<DateAssert> implements Fluent
 		super(pActualDate, DateAssert.class);
 		pdfUnderTest = pPdf;
 	}
-
-	@Override
-	public PdfPageAssert page(int pPageNumber) {
-		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
-	}
-	
-	@Override
-    public void eachPage(Consumer<? super PdfPageAssert> action) {
-        FluentPdfAssertionHelper.getPageAssertersForDocument(getPdfUnderTest()).forEach(action);
-    }
 
 	@Override
 	public PDDocument getPdfUnderTest() {

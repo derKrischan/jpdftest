@@ -19,7 +19,7 @@ public interface FluentPdfAsserter {
 	 * @return a {@link PdfAssert} for the PDF document under test.
 	 */
 	default PdfAssert document() {
-	  return new PdfAssert(getPdfUnderTest());
+	    return new PdfAssert(getPdfUnderTest());
 	}
 	
 	/**
@@ -28,9 +28,19 @@ public interface FluentPdfAsserter {
 	 * @param pPageNumber the PDF page number (starting at 1)
 	 * @return a {@link PdfPageAssert} for the given page
 	 */
-	PdfPageAssert page(final int pPageNumber);
+	default PdfPageAssert page(final int pPageNumber) {
+        return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
+    }
 	
-	void eachPage(Consumer<? super PdfPageAssert> action);
+	/**
+	 * 
+	 * Applies given {@link PdfPageAssert} for every page in document.
+	 * 
+	 * @param pageAssertion assertion to test for every page
+	 */
+	default void eachPage(Consumer<? super PdfPageAssert> pageAssertion) {
+        FluentPdfAssertionHelper.getPageAssertersForDocument(getPdfUnderTest()).forEach(pageAssertion);
+    }
 	
 	/**
 	 * Getter for the PDF document under test. The document has to be

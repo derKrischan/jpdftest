@@ -1,8 +1,6 @@
 package io.github.derkrischan.pdftest;
 
 
-import java.util.function.Consumer;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.assertj.core.api.AbstractCharSequenceAssert;
@@ -48,16 +46,6 @@ public class StringAssert extends AbstractCharSequenceAssert<StringAssert, Strin
 	public StringAssert trim() {
 		return new StringAssert(StringUtils.trim(actual), getPdfUnderTest());
 	}
-	
-	@Override
-	public PdfPageAssert page(int pPageNumber) {
-		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
-	}
-
-	@Override
-    public void eachPage(Consumer<? super PdfPageAssert> action) {
-        FluentPdfAssertionHelper.getPageAssertersForDocument(getPdfUnderTest()).forEach(action);
-    }
 	
 	@Override
 	public PDDocument getPdfUnderTest() {
