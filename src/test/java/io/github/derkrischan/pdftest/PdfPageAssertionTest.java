@@ -2,6 +2,7 @@ package io.github.derkrischan.pdftest;
 
 import org.junit.Test;
 
+import io.github.derkrischan.pdftest.image.MetricRectangle;
 import io.github.derkrischan.pdftest.page.Orientation;
 import io.github.derkrischan.pdftest.page.PaperSize;
 
@@ -46,6 +47,16 @@ public class PdfPageAssertionTest {
 	@Test
     public void givenLandscapeOrientedPdf_shouldMatchLandscapeExpectationForEveryPage() {
         PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.hasPageOrientation(Orientation.PORTRAIT));
+    }
+	
+	@Test(expected=AssertionError.class)
+    public void givenTwoPagePdfWithDifferentTexts_shouldFailMatchTextInEveryPage() {
+        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 164, 310)).contains("Page 1"));
+    }
+	
+	@Test
+    public void givenTwoPagePdfWithSameTextPart_shouldMatchTextInEveryPage() {
+        PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/2_page_dummy.pdf")).eachPage(p -> p.textInRegion(MetricRectangle.create(0, 0, 164, 310)).contains("2_page_dummy.md"));
     }
 	
 }
