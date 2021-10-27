@@ -1,7 +1,5 @@
 package io.github.derkrischan.pdftest;
 
-import java.util.Objects;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.assertj.core.api.AbstractAssert;
 
@@ -27,48 +25,13 @@ public abstract class AbstractPdfAssert<S extends AbstractAssert<S, A>, A> exten
 	 * @param selfType the own asserter type
 	 * @param pPdfUnderTest the PDF document under test
 	 */
-	public AbstractPdfAssert(A actual, Class<?> selfType, final PDDocument pPdfUnderTest) {
+	protected AbstractPdfAssert(A actual, Class<?> selfType, final PDDocument pPdfUnderTest) {
 		super(actual, selfType);
 		pdfUnderTest = pPdfUnderTest;
 	}
 	
 	@Override
-	public PdfAssert document() {
-		return new PdfAssert(getPdfUnderTest());
-	}
-
-	@Override
-	public PdfPageAssert page(int pPageNumber) {
-		return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
-	}
-
-	@Override
 	public PDDocument getPdfUnderTest() {
 		return pdfUnderTest;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(pdfUnderTest);
-		return result;
-	}
-
-	@Deprecated()
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof AbstractPdfAssert)) {
-			return false;
-		}
-		AbstractPdfAssert<?, ?> other = (AbstractPdfAssert<?, ?>) obj;
-		return Objects.equals(pdfUnderTest, other.pdfUnderTest);
-	}
-
 }

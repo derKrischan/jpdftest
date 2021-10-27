@@ -1,5 +1,9 @@
 package io.github.derkrischan.pdftest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
@@ -14,7 +18,9 @@ public interface FluentPdfAsserter {
 	 * Returns an {@link PdfAssert} for tests on the whole document.
 	 * @return a {@link PdfAssert} for the PDF document under test.
 	 */
-	PdfAssert document();
+	default PdfAssert document() {
+	    return new PdfAssert(getPdfUnderTest());
+	}
 	
 	/**
 	 * Returns a {@link PdfPageAssert} for tests on a specific page in the document.
@@ -22,7 +28,19 @@ public interface FluentPdfAsserter {
 	 * @param pPageNumber the PDF page number (starting at 1)
 	 * @return a {@link PdfPageAssert} for the given page
 	 */
-	PdfPageAssert page(final int pPageNumber);
+	default PdfPageAssert page(final int pPageNumber) {
+        return FluentPdfAssertionHelper.getPageAsserterForDocument(getPdfUnderTest(), pPageNumber);
+    }
+	
+	/**
+	 * 
+	 * Applies given {@link PdfPageAssert} for every page in document.
+	 * 
+	 * @param pageAssertion assertion to test for every page
+	 */
+	default void eachPage(Consumer<? super PdfPageAssert> pageAssertion) {
+        FluentPdfAssertionHelper.getPageAssertersForDocument(getPdfUnderTest()).forEach(pageAssertion);
+    }
 	
 	/**
 	 * Getter for the PDF document under test. The document has to be
@@ -64,5 +82,13 @@ public interface FluentPdfAsserter {
 			}
 			return new PdfPageAssert(pDocument.getPage(pPageNumber - 1), pDocument);
 		}
+		
+		public static List<PdfPageAssert> getPageAssertersForDocument(final PDDocument pDocument) {
+		  List<PdfPageAssert> pages = new ArrayList<>();
+	      for (int page = 1; page <= pDocument.getNumberOfPages(); page++) {
+	        pages.add(getPageAsserterForDocument(pDocument, page));
+	      }
+	      return pages;
+      }
 	}
 }
