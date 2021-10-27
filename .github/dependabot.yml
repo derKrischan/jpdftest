@@ -9,13 +9,4 @@ updates:
   target-branch: develop
   reviewers:
   - derKrischan
-  ignore:
-  - dependency-name: org.apache.commons:commons-lang3
-    versions:
-    - "< 3.9"
-  - dependency-name: org.assertj:assertj-core
-    versions:
-    - "< 3.0.0"
-  - dependency-name: org.apache.commons:commons-lang3
-    versions:
-    - 3.12.0
+  
