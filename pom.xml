@@ -55,7 +55,7 @@
 	</ciManagement>
 
 	<properties>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<!-- this timestamp is Used to create reproducable builds and will be controlled 
 			by maven-release-plugin in the future -->
 		<project.build.outputTimestamp>2019-11-30T08:04:00Z</project.build.outputTimestamp>
