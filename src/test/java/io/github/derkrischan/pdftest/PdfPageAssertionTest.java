@@ -1,5 +1,6 @@
 package io.github.derkrischan.pdftest;
 
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.junit.Test;
 
 import io.github.derkrischan.pdftest.image.MetricRectangle;
@@ -15,32 +16,52 @@ import io.github.derkrischan.pdftest.page.PaperSize;
 public class PdfPageAssertionTest {
 
 	@Test
-	public void testAssertPfdPageSize() {
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA4_thenShouldPass() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A4);
 	}
 
+	@Test(expected=AssertionError.class)
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA4Minus2Millimeter_thenShouldFail() {
+	  PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(new PDRectangle(PaperSize.A4.getRectangle().getWidth() - 2f, PaperSize.A4.getRectangle().getHeight() + 2f));
+	}
+
 	@Test
-	public void testAssertPfdPaperSizeWithCustomTolerance() {
-		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A4.getRectangle(), 0.5f, 0.5f);
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA4WithTolerance_thenShouldPass() {
+	  PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A4.getRectangle(), 0.5f, 0.5f);
+	}
+	
+	@Test(expected=AssertionError.class)
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA3_thenShouldFail() {
+	  PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A3);
+	}
+	
+	@Test(expected=AssertionError.class)
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA3WithToleranceOf5Millimeter_thenShouldFail() {
+	  PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A3.getRectangle(), 5f, 5f);
 	}
 	
 	@Test
-	public void givenPortraitOrientedPdf_shouldMatchPortraitExpectation() {
+	public void givenPageWithDinA4Size_whenCheckForPaperSizeDinA3WithToleranceOf350Millimeter_thenShouldPass() {
+	  PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPaperSize(PaperSize.A3.getRectangle(), 350f, 350f);
+	}
+	
+	@Test
+	public void givenPortraitOrientedPdf_whenTestForPortraitOrientation_thenShouldPass() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPageOrientation(Orientation.PORTRAIT);
 	}
 
 	@Test(expected=AssertionError.class)
-	public void givenLandscapeOrientedPdf_shouldFailPortraitExpectation() {
+	public void givenLandscapeOrientedPdf_whenTestForPortraitOrientation_thenShouldFail() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy_landscape.pdf")).page(1).hasPageOrientation(Orientation.PORTRAIT);
 	}
 	
 	@Test
-	public void givenLandscapeOrientedPdf_shouldMatchLandscapeExpectation() {
+	public void givenLandscapeOrientedPdf_whenTestForLandscapeOrientation_thenShouldPass() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy_landscape.pdf")).page(1).hasPageOrientation(Orientation.LANDSCAPE);
 	}
 
 	@Test(expected=AssertionError.class)
-	public void givenPortraitOrientedPdf_shouldFailLandscapeExpectation() {
+	public void givenPortraitOrientedPdf_whenTestForLandscapeOrientation_thenShouldFail() {
 		PdfAssertions.assertThat(ClassLoader.getSystemResourceAsStream("pdf/dummy.pdf")).page(1).hasPageOrientation(Orientation.LANDSCAPE);
 	}
 	

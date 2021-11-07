@@ -123,6 +123,29 @@ public class PdfPageAssert extends AbstractPdfAssert<PdfPageAssert, PDPage> {
 	public PdfPageAssert hasPaperSize(final PaperSize paperSize) {
 		return hasPaperSize(paperSize.getRectangle(), paperSize.getWidthToleranceInMillimeter(), paperSize.getHeightToleranceInMillimeter());
 	}
+
+	/**
+	 * Checks whether the current page has the expected size given in mm.
+	 * The paper size includes a tolerance up to 1mm.
+	 * 
+	 * @param width the expected paper size width
+	 * @param height the expected paper size width
+	 * @return this asserter instance
+	 */
+	public PdfPageAssert hasPaperSize(final float width, final float height) {
+	  return hasPaperSize(width, height, 1f, 1f);
+	}
+
+	/**
+	 * Checks whether the current page has the expected size given as rectangle in mm.
+	 * The paper size includes a tolerance up to 1mm.
+	 * 
+	 * @param rectangle the expected paper size
+	 * @return this asserter instance
+	 */
+	public PdfPageAssert hasPaperSize(final PDRectangle rectangle) {
+	  return hasPaperSize(rectangle.getWidth(), rectangle.getHeight(), 1f, 1f);
+	}
 	
 	/**
 	 * Checks whether the current page has the expected size respecting given tolerance values.
