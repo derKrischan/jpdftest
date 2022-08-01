@@ -81,7 +81,7 @@
 		<maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-		<maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+		<maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
 		<maven-scm-api.version>1.13.0</maven-scm-api.version>
 		<maven-scm-provider-gitexe.version>1.13.0</maven-scm-provider-gitexe.version>
 		<maven-shade-plugin.version>3.3.0</maven-shade-plugin.version>
