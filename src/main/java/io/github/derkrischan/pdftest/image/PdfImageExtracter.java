@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.imageio.ImageIO;
 
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -42,7 +43,7 @@ public final class PdfImageExtracter {
 	 * @throws IOException in case of an error extracting or storing the images from PDF
 	 */
 	public static void extractAllImagesFromPdfToFolder(String pPdfFileName, String pExportFolderName) throws IOException {
-		PDDocument doc = PDDocument.load(new File(pPdfFileName));
+		PDDocument doc = Loader.loadPDF(new File(pPdfFileName));
 		for (PDPage page : doc.getPages()) {
 			extractImagesFromResource(page.getResources(), pExportFolderName);
 		}

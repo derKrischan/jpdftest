@@ -1,21 +1,13 @@
 package io.github.derkrischan.pdftest;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-
-import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
 import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
 import org.apache.pdfbox.preflight.parser.PreflightParser;
-import org.apache.pdfbox.preflight.utils.ByteArrayDataSource;
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -26,7 +18,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author krischan
  *
  */
-public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource> {
+public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, File> {
 
 	/** error message string used in failures */
 	private static final String PARSE_FILE_ERROR_MESSAGE = " cannot be parsed for check of PDF/A-1b validity: ";
@@ -37,7 +29,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * 
 	 * @param pdf the PDF file name
 	 */
-	PdfFormatAssert(final DataSource pdf) {
+	PdfFormatAssert(final File pdf) {
 		super(pdf, PdfFormatAssert.class);
 	}
 	
@@ -49,41 +41,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 */
 	@CheckReturnValue
 	static PdfFormatAssert assertThat(final String fileName) {
-		return new PdfFormatAssert(new FileDataSource(fileName));
-	}
-	
-	/**
-	 * Package private static asserter to create a new instance Of this asserter.
-	 * 
-	 * @param pdfStream the PDF file as input stream
-	 * @return a new instance of {@link PdfFormatAssert}
-	 * @throws IllegalArgumentException in case the given input stream is not a valid PDF document
-	 */
-	@CheckReturnValue
-	static PdfFormatAssert assertThat(final InputStream pdfStream) {
-		try {
-			return new PdfFormatAssert(new ByteArrayDataSource(pdfStream));
-		} catch (IOException ioException) {
-			throw new IllegalArgumentException("Given input stream is not a valid PDF document.", ioException);
-		}
-		
-	}
-	
-	/**
-	 * Package private static asserter to create a new instance Of this asserter.
-	 * 
-	 * @param pdf the PDF file as byte array
-	 * @return a new instance of {@link PdfFormatAssert}
-	 * @throws IllegalArgumentException in case the given byte array is not a valid PDF document
-	 */
-	@CheckReturnValue
-	static PdfFormatAssert assertThat(final byte[] pdf) {
-		try {
-			return new PdfFormatAssert(new ByteArrayDataSource(new ByteArrayInputStream(pdf)));
-		} catch (IOException ioException) {
-			throw new IllegalArgumentException("Given byte array is not a valid PDF document.", ioException);
-		}
-		
+		return new PdfFormatAssert(new File(fileName));
 	}
 	
 	/**
@@ -94,7 +52,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 */
 	@CheckReturnValue
 	static PdfFormatAssert assertThat(final File pdf) {
-			return new PdfFormatAssert(new FileDataSource(pdf));
+			return new PdfFormatAssert(pdf);
 	}
 	
 	/**
@@ -105,7 +63,7 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 */
 	@CheckReturnValue
 	static PdfFormatAssert assertThat(final Path pdfPath) {
-		return new PdfFormatAssert(new FileDataSource(pdfPath.toFile()));
+		return new PdfFormatAssert(pdfPath.toFile());
 	}
 	
 	/**
@@ -114,12 +72,8 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @return this asserters instance
 	 */
 	public PdfFormatAssert validateNoPdfA1bCompliance() {
-		PreflightParser preflightParser = createPreflightParser();
-		try (PreflightDocument document = preflightParser.getPreflightDocument()) { 
-			document.validate();
-
-		    // Get validation result
-			ValidationResult result = document.getResult();
+		try { 
+				ValidationResult result = PreflightParser.validate(actual);
 		    if (result.isValid()) {
 		    	String errorMessage = actual + " is a valid document conforming PDF/A-1b specification.";
 		    	failWithMessage(errorMessage);
@@ -136,13 +90,9 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 	 * @return this asserters instance
 	 */
 	public PdfFormatAssert validatePdfA1bCompliance() {
-		PreflightParser preflightParser = createPreflightParser();
-		try (PreflightDocument document = preflightParser.getPreflightDocument()) { 
-			document.validate();
-
-		    // Get validation result
-			ValidationResult result = document.getResult();
-		    if (!result.isValid()) {
+		try { 
+				ValidationResult result = PreflightParser.validate(actual);
+				if (!result.isValid()) {
 		    	StringBuilder errorMessage = new StringBuilder(actual.toString()).append(" is not a valid document conforming PDF/A-1b specification.");
 		    	for (ValidationError validationError : result.getErrorsList()) {
 		    		errorMessage.append("\n").append(validationError.getDetails());
@@ -154,15 +104,4 @@ public class PdfFormatAssert extends AbstractAssert<PdfFormatAssert, DataSource>
 		}
 		return this;
 	}
-	
-	private PreflightParser createPreflightParser() {
-		try {
-			PreflightParser preflightParser = new PreflightParser(actual);
-			preflightParser.parse();
-			return preflightParser;
-		} catch (IOException e) {
-			throw Failures.instance().failure(actual + PARSE_FILE_ERROR_MESSAGE + e.getMessage()); 
-		}
-	}
-
 }

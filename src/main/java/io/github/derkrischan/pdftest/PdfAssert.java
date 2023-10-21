@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
@@ -110,8 +112,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 		}
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(file, password);
-			doc.getDocument().setWarnMissingClose(false);
+			doc = Loader.loadPDF(file, password);
 		} catch (InvalidPasswordException e) {
 			if (StringUtils.isBlank(password)) {
 				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
@@ -150,8 +151,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	static PdfAssert assertThat(final InputStream inputStream, final String password) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(inputStream, password);
-			doc.getDocument().setWarnMissingClose(false);
+			doc = Loader.loadPDF(RandomAccessReadBuffer.createBufferFromStream(inputStream), password);
 		} catch (InvalidPasswordException e) {
 			if (StringUtils.isBlank(password)) {
 				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
@@ -190,8 +190,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	static PdfAssert assertThat(final byte[] bytes, final String password) {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(bytes, password);
-			doc.getDocument().setWarnMissingClose(false);
+			doc = Loader.loadPDF(bytes, password);
 		} catch (InvalidPasswordException e) {
 			if (StringUtils.isBlank(password)) {
 				Fail.fail(MISSING_PASSWORD_ERROR_MSG + e.getMessage());
