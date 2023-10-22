@@ -450,7 +450,7 @@ public class PdfAssert extends AbstractPdfAssert<PdfAssert, PDDocument> {
 	/**
 	 * Checks that the document contains at least one of the given actions types.
 	 * 
-	 * @param action type list of {@link ActionType} to check for
+	 * @param actions type list of {@link ActionType} to check for
 	 * @return this asserter instance
 	 */
 	@SafeVarargs

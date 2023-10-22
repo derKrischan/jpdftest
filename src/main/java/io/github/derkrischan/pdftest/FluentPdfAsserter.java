@@ -73,7 +73,7 @@ public interface FluentPdfAsserter {
 		 * 
 		 * @param pDocument the PDF document
 		 * @param pPageNumber the PDF page number (starting at 1)
-		 * @return
+		 * @return the asserter for the single page with <code>pPageNumber</code> in document <code>pDocument</code>.
 		 * @throws IllegalArgumentException in case pPageNumber is out of range
 		 */
 		public static PdfPageAssert getPageAsserterForDocument(final PDDocument pDocument, final int pPageNumber) {
