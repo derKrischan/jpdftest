@@ -88,7 +88,7 @@
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.2.3</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-		<plexus-compiler-eclipse>2.14.2</plexus-compiler-eclipse>
+		<plexus-compiler-eclipse>2.15.0</plexus-compiler-eclipse>
 		<sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
 		<versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
 
